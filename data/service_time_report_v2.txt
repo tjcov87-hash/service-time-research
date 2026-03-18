@@ -1,0 +1,75 @@
+SERVICE TIME MODEL v2 — RESULTS
+============================================================
+
+MODEL STRUCTURE
+  T_stop(n, density, cell, sig) =
+    T_walk(density)                  [Poisson NN walk model]
+    + T_handoff(cell, sorted)        [first package, log-normal]
+    + (n-1) x T_increment(cell)      [additional packages]
+    + sig x T_signature              [signature premium +45s]
+
+WALK TIME MODEL (Poisson nearest-neighbour)
+  d_walk = 1.35 x 500 / sqrt(density)  [metres, one-way]
+  T_walk = 2 x d_walk / 1.2 + 8        [seconds, round trip]
+
+SORT BENEFIT
+  Handoff reduction: 12%
+  Increment reduction: 6%
+  Walk time: unaffected (same route)
+
+CELL PARAMETERS (literature-grounded + Australia-adjusted)
+------------------------------------------------------------
+  C1 CBD Residential
+    Density ref:    3000 stops/km2
+    Walk time:      33s
+    Handoff mean:   90s  (sorted: 79s)
+    Increment/pkg:  10s
+    Source:         synthetic_fallback
+
+  C2 Urban MDU
+    Density ref:    2500 stops/km2
+    Walk time:      34s
+    Handoff mean:   230s  (sorted: 202s)
+    Increment/pkg:  9s
+    Source:         literature
+
+  C3 CBD Commercial
+    Density ref:    4000 stops/km2
+    Walk time:      30s
+    Handoff mean:   280s  (sorted: 246s)
+    Increment/pkg:  12s
+    Source:         literature
+
+  C4 Suburban Residential
+    Density ref:    800 stops/km2
+    Walk time:      52s
+    Handoff mean:   106s  (sorted: 93s)
+    Increment/pkg:  10s
+    Source:         literature
+
+  C5 Suburban MDU
+    Density ref:    1200 stops/km2
+    Walk time:      44s
+    Handoff mean:   200s  (sorted: 176s)
+    Increment/pkg:  9s
+    Source:         synthetic_fallback
+
+  C6 Suburban Commercial
+    Density ref:    1500 stops/km2
+    Walk time:      41s
+    Handoff mean:   70s  (sorted: 62s)
+    Increment/pkg:  12s
+    Source:         synthetic_fallback
+
+
+SLIDING SCALE SUMMARY
+------------------------------------------------------------
+  Cell                   n=1(U)  n=1(S)  n=2(U)  n=5(U)  n=10(U)
+  CBD Residential          123s    112s    133s     163s     213s
+  Urban MDU                264s    237s    273s     299s     343s
+  CBD Commercial           309s    276s    321s     357s     417s
+  Suburban Residential     157s    145s    167s     197s     247s
+  Suburban MDU             244s    220s    253s     279s     323s
+  Suburban Commercial      111s    103s    123s     159s     219s
+
+============================================================

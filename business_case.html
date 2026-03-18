@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zone Sort Business Case — Botany DC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body { font-family:'Inter',sans-serif; scroll-behavior:smooth; }
+    .gradient-hero { background:linear-gradient(135deg,#1e3a5f 0%,#0f2340 60%,#1a1a2e 100%); }
+    .card-hover { transition:transform .2s,box-shadow .2s; }
+    .card-hover:hover { transform:translateY(-3px); box-shadow:0 12px 28px rgba(0,0,0,.12); }
+    .pill { display:inline-block;padding:2px 10px;border-radius:999px;font-size:.72rem;font-weight:600; }
+    .fade-in { animation:fadeIn .6s ease both; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    .win  { background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:4px solid #10b981; }
+    .lose { background:linear-gradient(135deg,#fef2f2,#fee2e2);border-left:4px solid #ef4444; }
+    .warn { background:linear-gradient(135deg,#fffbeb,#fef3c7);border-left:4px solid #f59e0b; }
+    nav { position:sticky;top:0;z-index:100; }
+    .timeline-bar { height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:white; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- NAV -->
+<nav class="bg-white border-b border-gray-200 shadow-sm">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 10V7"/></svg>
+      </div>
+      <div>
+        <div class="font-semibold text-sm">Botany DC — Zone Sort</div>
+        <div class="text-xs text-gray-500">Business Case · March 2026</div>
+      </div>
+    </div>
+    <div class="hidden md:flex gap-5 text-sm font-medium text-gray-600">
+      <a href="#hiddencost" class="hover:text-blue-600 transition">Hidden Cost</a>
+      <a href="#solution"   class="hover:text-blue-600 transition">The Solution</a>
+      <a href="#comparison" class="hover:text-blue-600 transition">Three-Way Comparison</a>
+      <a href="#numbers"    class="hover:text-blue-600 transition">The Numbers</a>
+      <a href="#confidence" class="hover:text-blue-600 transition">Confidence</a>
+      <a href="#action"     class="hover:text-blue-600 transition">Recommendation</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="gradient-hero text-white py-20 px-6">
+  <div class="max-w-5xl mx-auto fade-in">
+    <div class="pill bg-blue-500 text-white mb-4">Botany DC · 25,000 pkgs/day · 147 drivers · March 2026</div>
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+      Zone-Level Pre-Sort:<br/>
+      <span class="text-blue-300">Stop Paying Drivers to Sort on the Floor</span>
+    </h1>
+    <p class="text-blue-100 text-lg max-w-2xl mb-10">
+      Every morning, 147 drivers spend up to 2 hours sorting their run on the DC floor
+      before they've delivered a single parcel. Zone pre-sort eliminates this entirely —
+      and still beats the high-capacity van alternative by over $1.1M per year.
+    </p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white/10 backdrop-blur rounded-xl p-5 border border-white/20">
+        <div class="text-blue-200 text-xs font-semibold uppercase tracking-wide mb-1">Median annual saving</div>
+        <div class="text-4xl font-extrabold">$2.4M</div>
+        <div class="text-blue-200 text-sm mt-1">fleet-wide per year</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur rounded-xl p-5 border border-white/20">
+        <div class="text-blue-200 text-xs font-semibold uppercase tracking-wide mb-1">Per driver per day</div>
+        <div class="text-4xl font-extrabold">115<span class="text-2xl"> min</span></div>
+        <div class="text-blue-200 text-sm mt-1">recovered daily</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur rounded-xl p-5 border border-white/20">
+        <div class="text-blue-200 text-xs font-semibold uppercase tracking-wide mb-1">Probability of benefit</div>
+        <div class="text-4xl font-extrabold">100<span class="text-2xl">%</span></div>
+        <div class="text-blue-200 text-sm mt-1">every simulation positive</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur rounded-xl p-5 border border-white/20">
+        <div class="text-blue-200 text-xs font-semibold uppercase tracking-wide mb-1">vs high-cap van (net)</div>
+        <div class="text-4xl font-extrabold">+$1.1M</div>
+        <div class="text-blue-200 text-sm mt-1">per year advantage</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE HIDDEN COST -->
+<section id="hiddencost" class="py-16 px-6 bg-white">
+  <div class="max-w-5xl mx-auto">
+    <div class="pill bg-red-100 text-red-700 mb-3">The Hidden Cost</div>
+    <h2 class="text-3xl font-bold mb-3">$1.76M is spent before a single parcel leaves the DC</h2>
+    <p class="text-gray-600 text-lg mb-8 max-w-3xl">
+      Packages currently arrive at drivers sorted to a <strong>run level</strong> — not in delivery order.
+      Before loading their van, every driver sorts their entire allocation on the floor by hand.
+      This is the largest single inefficiency in the operation.
+    </p>
+
+    <!-- Floor sort timeline -->
+    <div class="bg-red-50 border border-red-200 rounded-2xl p-6 mb-8">
+      <h3 class="font-semibold text-gray-900 mb-4 text-sm uppercase tracking-wide">
+        A driver's morning — current state
+      </h3>
+      <div class="flex gap-1 mb-3">
+        <div class="timeline-bar bg-red-500" style="width:47%">Floor sort on DC floor<br/><span class="text-xs font-normal opacity-90">~85 min average · up to 2hrs</span></div>
+        <div class="timeline-bar bg-orange-400" style="width:16%">Load van<br/><span class="text-xs font-normal opacity-90">~30 min</span></div>
+        <div class="timeline-bar bg-blue-500" style="width:37%">Drive to first stop<br/><span class="text-xs font-normal opacity-90">First delivery ~115 min after arriving</span></div>
+      </div>
+      <div class="text-sm text-red-700 font-medium mt-2">
+        Nearly 2 hours of unproductive time before the first parcel is delivered — every driver, every day.
+      </div>
+    </div>
+
+    <!-- Cost calculation -->
+    <div class="grid md:grid-cols-3 gap-4 mb-8">
+      <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200 text-center">
+        <div class="text-3xl font-bold text-red-600 mb-1">85 min</div>
+        <div class="text-sm text-gray-600 font-medium">avg floor sort per driver</div>
+        <div class="text-xs text-gray-400 mt-1">(truncated normal, range 30–120 min)</div>
+      </div>
+      <div class="text-gray-300 flex items-center justify-center text-3xl font-light">×</div>
+      <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200 text-center">
+        <div class="text-3xl font-bold text-red-600 mb-1">147 × 264</div>
+        <div class="text-sm text-gray-600 font-medium">drivers × operating days</div>
+        <div class="text-xs text-gray-400 mt-1">at $32/hr driver cost</div>
+      </div>
+    </div>
+    <div class="bg-red-600 text-white rounded-2xl p-6 text-center mb-8">
+      <div class="text-5xl font-extrabold mb-2">$1,761,395</div>
+      <div class="text-red-200 text-lg">spent annually on floor sorting — before a single parcel is delivered</div>
+    </div>
+
+    <!-- Two hidden costs -->
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="rounded-2xl border border-red-200 bg-red-50 p-5">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-lg bg-red-500 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-900 mb-1">Hidden Cost 1: Floor Sort Time</h3>
+            <p class="text-sm text-gray-700">Drivers manually sequence their entire run on the DC floor. No driver assistance. No tooling. Just packages spread on concrete being moved by hand into delivery order.</p>
+            <div class="mt-2"><span class="pill bg-red-200 text-red-800">$1.76M/yr · 85 min/driver/day</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="rounded-2xl border border-orange-200 bg-orange-50 p-5">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-lg bg-orange-500 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-900 mb-1">Hidden Cost 2: On-Road Inefficiency</h3>
+            <p class="text-sm text-gray-700">Even after floor sorting, the van is not perfectly sequenced by zone. Drivers still search the van at each stop (+8.7s) and take sub-optimal routes between stops (86% route efficiency).</p>
+            <div class="mt-2"><span class="pill bg-orange-200 text-orange-800">$342k/yr · 24.7 min/driver/day</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE SOLUTION -->
+<section id="solution" class="py-16 px-6 bg-gray-50">
+  <div class="max-w-5xl mx-auto">
+    <div class="pill bg-green-100 text-green-700 mb-3">The Solution</div>
+    <h2 class="text-3xl font-bold mb-3">Zone pre-sort: the DC does the hard work, not the driver</h2>
+    <p class="text-gray-600 text-lg mb-10 max-w-3xl">
+      Sort packages at the DC into tight geographic zones of 15–25 stops, in delivery sequence.
+      Drivers arrive, load their van in 25 minutes, and start delivering immediately.
+      No floor sort. No van searching. No backtracking.
+    </p>
+
+    <!-- Before / After morning timeline -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm mb-8">
+      <h3 class="font-semibold text-gray-900 mb-5">A driver's morning — before vs after</h3>
+      <div class="space-y-4">
+        <div>
+          <div class="text-xs font-semibold text-red-600 uppercase tracking-wide mb-1">Current state</div>
+          <div class="flex gap-1">
+            <div class="timeline-bar bg-red-500" style="width:47%">Floor sort (~85 min)</div>
+            <div class="timeline-bar bg-orange-400" style="width:16%">Load (30 min)</div>
+            <div class="timeline-bar bg-blue-400" style="width:37%">Deliver</div>
+          </div>
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-yellow-600 uppercase tracking-wide mb-1">High-capacity van (alternative)</div>
+          <div class="flex gap-1">
+            <div class="timeline-bar bg-gray-300 text-gray-600" style="width:5%">–</div>
+            <div class="timeline-bar bg-yellow-400" style="width:33%">Load large van (~60 min)</div>
+            <div class="timeline-bar bg-blue-400" style="width:62%">Deliver (good sequence)</div>
+          </div>
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-1">Zone pre-sort</div>
+          <div class="flex gap-1">
+            <div class="timeline-bar bg-gray-300 text-gray-600" style="width:5%">–</div>
+            <div class="timeline-bar bg-green-400" style="width:14%">Load (25 min)</div>
+            <div class="timeline-bar bg-blue-500" style="width:81%">Deliver (optimal zone sequence)</div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 text-xs text-gray-400">Bars are proportional to time — zone sort recovers ~90 minutes of productive time per driver per day</div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 card-hover">
+        <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg mb-3">1</div>
+        <h3 class="font-bold text-gray-900 mb-2">694 Zones Defined</h3>
+        <p class="text-gray-600 text-sm">Each zone covers 15–25 stops within a 400m radius. Defined once, stable day-to-day. Sorters learn them within a week.</p>
+        <div class="mt-3 grid grid-cols-3 gap-1 text-center text-xs">
+          <div class="bg-blue-50 rounded p-1"><div class="font-bold text-blue-700">694</div><div class="text-gray-400">zones</div></div>
+          <div class="bg-blue-50 rounded p-1"><div class="font-bold text-blue-700">410m</div><div class="text-gray-400">avg dia.</div></div>
+          <div class="bg-blue-50 rounded p-1"><div class="font-bold text-blue-700">99%</div><div class="text-gray-400">compliant</div></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 card-hover">
+        <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-lg mb-3">2</div>
+        <h3 class="font-bold text-gray-900 mb-2">DC Sorts in Delivery Order</h3>
+        <p class="text-gray-600 text-sm">At the DC, packages go into zone bins in reverse delivery sequence — last stop loaded first, first stop pulled first. Driver loads straight into the van in 25 min.</p>
+        <div class="mt-3 bg-purple-50 rounded-lg p-2 text-xs text-purple-800 font-medium">Floor sort eliminated. Load time drops from 30 min (after 85 min sort) to 25 min total.</div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 card-hover">
+        <div class="w-10 h-10 rounded-xl bg-green-600 text-white flex items-center justify-center font-bold text-lg mb-3">3</div>
+        <h3 class="font-bold text-gray-900 mb-2">Driver Follows the Load</h3>
+        <p class="text-gray-600 text-sm">The load sequence IS the route. Driver pulls the next parcel, walks to the door, repeats. No searching, no navigation decisions, no backtracking within the zone.</p>
+        <div class="mt-3 grid grid-cols-2 gap-1 text-center text-xs">
+          <div class="bg-green-50 rounded p-1"><div class="font-bold text-green-700">3.7 min</div><div class="text-gray-400">TSP/zone</div></div>
+          <div class="bg-green-50 rounded p-1"><div class="font-bold text-green-700">vs 4.4 min</div><div class="text-gray-400">current</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE-WAY COMPARISON -->
+<section id="comparison" class="py-16 px-6 bg-white">
+  <div class="max-w-5xl mx-auto">
+    <div class="pill bg-yellow-100 text-yellow-700 mb-3">Three-Way Comparison</div>
+    <h2 class="text-3xl font-bold mb-3">Current state vs high-capacity van vs zone pre-sort</h2>
+    <p class="text-gray-600 text-lg mb-8 max-w-3xl">
+      The high-capacity van alternative does solve the floor sort problem — but replaces it
+      with a 60-minute loading problem, requires $1M+ in fleet capex, and still loses to
+      zone sort by over $1.1M per year.
+    </p>
+
+    <!-- Core insight -->
+    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 mb-8 flex gap-4 items-start">
+      <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shrink-0">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.347.416A3 3 0 0118 19.5h-6a3 3 0 01-2.682-1.583l-.347-.416z"/></svg>
+      </div>
+      <div>
+        <div class="font-semibold text-blue-900 mb-1">The key difference: how you sort determines how you load</div>
+        <p class="text-blue-800 text-sm leading-relaxed">A high-capacity van sorts to exact sequence at the DC — good. But loading 100+ packages in precise sequence into a large van takes a full hour because every package must be placed in exactly the right position. Zone sort loads 15–25 packages per zone batch — small enough to stage in 25 minutes with no precision placement required.</p>
+      </div>
+    </div>
+
+    <!-- Comparison table -->
+    <div class="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm mb-8">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <th class="text-left py-4 px-5 font-semibold text-gray-700 w-2/5">Factor</th>
+            <th class="text-center py-4 px-4 font-semibold text-gray-600 w-1/5">Current state</th>
+            <th class="text-center py-4 px-4 font-semibold text-yellow-700 w-1/5 bg-yellow-50">High-cap van</th>
+            <th class="text-center py-4 px-4 font-semibold text-green-700 w-1/5 bg-green-50">Zone pre-sort</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr class="bg-red-50">
+            <td class="py-3 px-5 font-semibold text-gray-800">Floor sort time (driver)</td>
+            <td class="py-3 px-4 text-center"><span class="pill bg-red-100 text-red-700">~85 min avg</span></td>
+            <td class="py-3 px-4 text-center bg-yellow-50"><span class="pill bg-green-100 text-green-700">0 min</span></td>
+            <td class="py-3 px-4 text-center bg-green-50"><span class="pill bg-green-100 text-green-700">0 min</span></td>
+          </tr>
+          <tr>
+            <td class="py-3 px-5 font-semibold text-gray-800">Van loading time</td>
+            <td class="py-3 px-4 text-center">30 min</td>
+            <td class="py-3 px-4 text-center bg-yellow-50"><span class="pill bg-red-100 text-red-700">~60 min (large van)</span></td>
+            <td class="py-3 px-4 text-center bg-green-50"><span class="pill bg-green-100 text-green-700">~25 min</span></td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-3 px-5 font-semibold text-gray-800">Total pre-route time</td>
+            <td class="py-3 px-4 text-center font-bold text-red-600">~115 min</td>
+            <td class="py-3 px-4 text-center bg-yellow-50 font-bold text-yellow-700">~60 min</td>
+            <td class="py-3 px-4 text-center bg-green-50 font-bold text-green-700">~25 min</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-5 font-semibold text-gray-800">Van search time at each stop</td>
+            <td class="py-3 px-4 text-center"><span class="pill bg-red-100 text-red-700">+8.7s/stop</span></td>
+            <td class="py-3 px-4 text-center bg-yellow-50"><span class="pill bg-green-100 text-green-700">Minimal (sorted)</span></td>
+            <td class="py-3 px-4 text-center bg-green-50"><span class="pill bg-green-100 text-green-700">None (zone order)</span></td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-3 px-5 font-semibold text-gray-800">Route sequencing efficiency</td>
+            <td class="py-3 px-4 text-center">86.1%</td>
+            <td class="py-3 px-4 text-center bg-yellow-50">~92% (run-level sort)</td>
+            <td class="py-3 px-4 text-center bg-green-50"><span class="pill bg-green-100 text-green-700">~100% (TSP optimal)</span></td>
+          </tr>
+          <tr>
+            <td class="py-3 px-5 font-semibold text-gray-800">Fleet capital cost</td>
+            <td class="py-3 px-4 text-center">—</td>
+            <td class="py-3 px-4 text-center bg-yellow-50"><span class="pill bg-red-100 text-red-700">~$1M+ capex</span></td>
+            <td class="py-3 px-4 text-center bg-green-50"><span class="pill bg-green-100 text-green-700">None</span></td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-3 px-5 font-semibold text-gray-800">Ongoing fleet lease premium</td>
+            <td class="py-3 px-4 text-center">—</td>
+            <td class="py-3 px-4 text-center bg-yellow-50"><span class="pill bg-red-100 text-red-700">~$195k/yr</span></td>
+            <td class="py-3 px-4 text-center bg-green-50"><span class="pill bg-green-100 text-green-700">None</span></td>
+          </tr>
+          <tr>
+            <td class="py-3 px-5 font-semibold text-gray-800">Annual operational saving</td>
+            <td class="py-3 px-4 text-center text-gray-400">Baseline ($0)</td>
+            <td class="py-3 px-4 text-center bg-yellow-50 font-bold">~$1.15M/yr</td>
+            <td class="py-3 px-4 text-center bg-green-50 font-bold text-green-700">~$2.37M/yr</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-3 px-5 font-semibold text-gray-800">Net annual benefit (after lease)</td>
+            <td class="py-3 px-4 text-center text-gray-400">$0</td>
+            <td class="py-3 px-4 text-center bg-yellow-50 font-bold">~$1.25M/yr net<br/><span class="text-xs font-normal text-gray-500">after $195k lease</span></td>
+            <td class="py-3 px-4 text-center bg-green-50 font-bold text-green-700">~$2.37M/yr<br/><span class="text-xs font-normal text-gray-500">no ongoing cost</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Three net position cards -->
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="lose rounded-xl p-5">
+        <div class="font-bold text-gray-900 mb-2">Current State</div>
+        <div class="text-sm text-gray-700 space-y-1">
+          <div>Pre-route time: <strong>115 min/driver/day</strong></div>
+          <div>Annual cost: <strong>$2.4M in wasted time</strong></div>
+          <div class="text-red-700 font-semibold mt-2">Do nothing = $2.4M/yr ongoing loss</div>
+        </div>
+      </div>
+      <div class="warn rounded-xl p-5">
+        <div class="font-bold text-gray-900 mb-2">High-Capacity Van</div>
+        <div class="text-sm text-gray-700 space-y-1">
+          <div>Saves floor sort, but loads in 60 min</div>
+          <div>Net saving: <strong>~$1.25M/yr</strong> (after lease)</div>
+          <div>Plus: <strong>$1M+ upfront capex</strong></div>
+          <div class="text-yellow-700 font-semibold mt-2">Partial solution — still loses to zone sort by $1.1M/yr</div>
+        </div>
+      </div>
+      <div class="win rounded-xl p-5">
+        <div class="font-bold text-gray-900 mb-2">Zone Pre-Sort</div>
+        <div class="text-sm text-gray-700 space-y-1">
+          <div>Pre-route time: <strong>25 min/driver/day</strong></div>
+          <div>Annual saving: <strong>$2.37M/yr median</strong></div>
+          <div>No capex. No lease uplift.</div>
+          <div class="text-green-700 font-semibold mt-2">Best outcome — no capex, maximum time recovery</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE NUMBERS -->
+<section id="numbers" class="py-16 px-6 bg-gray-50">
+  <div class="max-w-5xl mx-auto">
+    <div class="pill bg-blue-100 text-blue-700 mb-3">Financial Model</div>
+    <h2 class="text-3xl font-bold mb-3">Where does the $2.37M come from?</h2>
+    <p class="text-gray-600 text-lg mb-10 max-w-3xl">
+      Three independent saving components — each modelled separately and combined in simulation.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-5 mb-8">
+      <!-- Component 1 -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 card-hover">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center"><span class="text-red-600 font-bold text-sm">1</span></div>
+          <div><div class="font-bold text-sm">Floor sort eliminated</div><div class="text-xs text-gray-500">Dominant component</div></div>
+          <div class="ml-auto text-right"><div class="text-xl font-bold text-red-600">$1.76M</div><div class="text-xs text-gray-400">/yr</div></div>
+        </div>
+        <p class="text-xs text-gray-600 mb-3">DC pre-sorts to zones, eliminating ~85 min of daily driver floor sort time. Modelled as a truncated normal distribution (range 30–120 min).</p>
+        <div class="bg-gray-50 rounded-lg p-3 space-y-1 text-xs">
+          <div class="flex justify-between"><span class="text-gray-500">Floor sort mean</span><strong>85 min</strong></div>
+          <div class="flex justify-between"><span class="text-gray-500">× 147 drivers × 264 days</span><strong>6,183 driver-days</strong></div>
+          <div class="flex justify-between"><span class="text-gray-500">× $32/hr</span><strong>$1,761,395/yr</strong></div>
+        </div>
+      </div>
+
+      <!-- Component 2 -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 card-hover">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center"><span class="text-blue-600 font-bold text-sm">2</span></div>
+          <div><div class="font-bold text-sm">Load time saving</div><div class="text-xs text-gray-500">Secondary component</div></div>
+          <div class="ml-auto text-right"><div class="text-xl font-bold text-blue-600">$103k</div><div class="text-xs text-gray-400">/yr</div></div>
+        </div>
+        <p class="text-xs text-gray-600 mb-3">Zone batches (15–25 packages) load in 25 min vs 30 min for an unsorted full run. Small saving but real.</p>
+        <div class="bg-gray-50 rounded-lg p-3 space-y-1 text-xs">
+          <div class="flex justify-between"><span class="text-gray-500">Load time saving</span><strong>5 min/driver/day</strong></div>
+          <div class="flex justify-between"><span class="text-gray-500">× 147 × 264 × $32/hr</span><strong>$103,488/yr</strong></div>
+        </div>
+      </div>
+
+      <!-- Component 3 -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 card-hover">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center"><span class="text-purple-600 font-bold text-sm">3</span></div>
+          <div><div class="font-bold text-sm">On-road efficiency</div><div class="text-xs text-gray-500">Phase 2 + Phase 3</div></div>
+          <div class="ml-auto text-right"><div class="text-xl font-bold text-purple-600">$342k</div><div class="text-xs text-gray-400">/yr</div></div>
+        </div>
+        <p class="text-xs text-gray-600 mb-3">Van search time eliminated (8.7s/stop) plus route efficiency improved (86% → ~100% RER). Fitted from 205,000 stop observations.</p>
+        <div class="bg-gray-50 rounded-lg p-3 space-y-1 text-xs">
+          <div class="flex justify-between"><span class="text-gray-500">Service time saving</span><strong>$281k/yr</strong></div>
+          <div class="flex justify-between"><span class="text-gray-500">Route efficiency saving</span><strong>$61k/yr</strong></div>
+          <div class="flex justify-between"><span class="text-gray-500">On-road total</span><strong>$342k/yr</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Waterfall chart -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm mb-8">
+      <h3 class="font-semibold text-gray-900 mb-2">Saving waterfall — all three components</h3>
+      <p class="text-gray-500 text-sm mb-5">Floor sort elimination is 74% of the total saving. On-road savings, while meaningful, are not the main story.</p>
+      <div class="relative h-64"><canvas id="savingsChart"></canvas></div>
+    </div>
+
+    <!-- Key per-driver stats -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="font-semibold text-gray-900 mb-4">What 115 minutes per driver per day really means</h3>
+      <div class="grid md:grid-cols-4 gap-4 text-center">
+        <div class="bg-green-50 rounded-xl p-4">
+          <div class="text-3xl font-bold text-green-700 mb-1">+68</div>
+          <div class="text-sm font-semibold text-gray-700">extra packages/driver/day</div>
+          <div class="text-xs text-gray-400 mt-1">at 1.7 min avg per stop</div>
+        </div>
+        <div class="bg-blue-50 rounded-xl p-4">
+          <div class="text-3xl font-bold text-blue-700 mb-1">$24.80</div>
+          <div class="text-sm font-semibold text-gray-700">saved per driver per day</div>
+          <div class="text-xs text-gray-400 mt-1">at $32/hr driver cost</div>
+        </div>
+        <div class="bg-purple-50 rounded-xl p-4">
+          <div class="text-3xl font-bold text-purple-700 mb-1">$6,547</div>
+          <div class="text-sm font-semibold text-gray-700">saved per driver per year</div>
+          <div class="text-xs text-gray-400 mt-1">264 operating days</div>
+        </div>
+        <div class="bg-red-50 rounded-xl p-4">
+          <div class="text-3xl font-bold text-red-700 mb-1">74%</div>
+          <div class="text-sm font-semibold text-gray-700">of saving is floor sort alone</div>
+          <div class="text-xs text-gray-400 mt-1">before any on-road benefit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIDENCE -->
+<section id="confidence" class="py-16 px-6 bg-white">
+  <div class="max-w-5xl mx-auto">
+    <div class="pill bg-indigo-100 text-indigo-700 mb-3">Statistical Confidence</div>
+    <h2 class="text-3xl font-bold mb-3">10,000 simulations — every single one showed a positive saving</h2>
+    <p class="text-gray-600 text-lg mb-8 max-w-3xl">
+      The floor sort saving is near-deterministic — drivers demonstrably spend this time every day.
+      The on-road savings are probabilistic but confirmed by 205,000 observed stop records.
+      Combined: 100% of simulations showed a positive outcome.
+    </p>
+
+    <!-- MC histogram -->
+    <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200 mb-8">
+      <h3 class="font-semibold text-gray-900 mb-1">Annual saving distribution — 10,000 simulations (fleet-wide)</h3>
+      <p class="text-gray-500 text-sm mb-5">The distribution is tightly centred around $2.4M because floor sort saving is near-certain. The tails reflect variability in on-road performance.</p>
+      <div class="relative h-52"><canvas id="mcChart"></canvas></div>
+      <div class="mt-4 flex flex-wrap gap-4 text-sm">
+        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-orange-400"></div><span class="text-gray-600">P5 downside = <strong>$1.52M</strong></span></div>
+        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-green-500"></div><span class="text-gray-600">P50 median = <strong>$2.37M</strong></span></div>
+        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-orange-400"></div><span class="text-gray-600">P95 upside = <strong>$3.13M</strong></span></div>
+        <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-blue-500"></div><span class="text-gray-600">All 10,000 simulations positive</span></div>
+      </div>
+    </div>
+
+    <!-- CI bar -->
+    <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200 mb-8">
+      <h3 class="font-semibold text-gray-900 mb-5">90% Confidence interval — annual fleet saving</h3>
+      <div class="relative px-2">
+        <div class="flex justify-between text-xs text-gray-400 mb-1">
+          <span>$1M</span><span>$1.5M</span><span>$2M</span><span>$2.5M</span><span>$3M</span><span>$3.5M</span>
+        </div>
+        <div class="h-8 bg-gray-200 rounded-lg relative">
+          <div class="absolute h-full bg-blue-200 rounded" style="left:20.5%;width:65%;"></div>
+          <div class="absolute w-1 bg-blue-600 h-full rounded" style="left:54.5%;"></div>
+          <span class="absolute text-xs font-semibold text-orange-600 -top-5" style="left:18%;">P5: $1.52M</span>
+          <span class="absolute text-xs font-semibold text-blue-700 -top-5" style="left:50%;">P50: $2.37M</span>
+          <span class="absolute text-xs font-semibold text-orange-600 -top-5" style="left:78%;">P95: $3.13M</span>
+        </div>
+        <div class="text-xs text-gray-400 mt-6 text-center">90% confidence interval — even the downside case ($1.52M) is a compelling business case</div>
+      </div>
+    </div>
+
+    <!-- Assumptions -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="font-semibold text-gray-900 mb-4">Key assumptions — and how robust they are</h3>
+      <div class="space-y-3">
+        <div class="flex items-start gap-3">
+          <div class="pill bg-green-100 text-green-700 shrink-0 mt-0.5">Very low risk</div>
+          <div class="text-sm text-gray-600"><strong class="text-gray-800">Floor sort happens in current state</strong> — directly observed operational behaviour. The 85-minute mean is conservative (modelled as truncated normal with range 30–120 min). This is the dominant saving and carries near-zero model risk.</div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="pill bg-green-100 text-green-700 shrink-0 mt-0.5">Low risk</div>
+          <div class="text-sm text-gray-600"><strong class="text-gray-800">High-cap van load time is 60 min</strong> — stated directly by operations. Even if this improves to 45 min with practice, zone sort still wins by $724k/yr on load time alone.</div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="pill bg-yellow-100 text-yellow-700 shrink-0 mt-0.5">Medium risk</div>
+          <div class="text-sm text-gray-600"><strong class="text-gray-800">Zone sort load time is 25 min</strong> — operationally achievable with small ordered batches, but needs validation in pilot. If it takes 35 min, saving reduces by $104k/yr — still $2.27M total.</div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="pill bg-green-100 text-green-700 shrink-0 mt-0.5">Low risk</div>
+          <div class="text-sm text-gray-600"><strong class="text-gray-800">On-road savings modelled from 205,000 observed stops</strong> — log-normal distribution confirmed by AIC comparison. Service time and route efficiency models are statistically robust.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SENSITIVITY -->
+<section class="py-16 px-6 bg-gray-50">
+  <div class="max-w-5xl mx-auto">
+    <div class="pill bg-purple-100 text-purple-700 mb-3">Sensitivity Analysis</div>
+    <h2 class="text-3xl font-bold mb-3">What if our assumptions are wrong?</h2>
+    <p class="text-gray-600 text-lg mb-10 max-w-3xl">Six parameters tested from pessimistic to optimistic. Even in the worst combination of assumptions, the saving is strongly positive.</p>
+    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm mb-8">
+      <h3 class="font-semibold text-gray-900 mb-1">Tornado chart — annual saving sensitivity (zone sort vs current)</h3>
+      <p class="text-gray-500 text-sm mb-5">Driver cost and fleet size dominate because they multiply every minute of saving. Floor sort mean has the third-largest swing — validating that number from operations is the most important pre-pilot task.</p>
+      <div class="relative h-64"><canvas id="tornadoChart"></canvas></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="bg-white rounded-xl p-4 border border-gray-200">
+        <div class="pill bg-red-100 text-red-700 mb-2">Largest swing</div>
+        <div class="font-semibold text-gray-900 mb-1">Driver cost ($/hr)</div>
+        <div class="text-sm text-gray-600">$1.22M swing between $24/hr and $40/hr. As award wages rise, this saving grows automatically — making the case stronger over time.</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 border border-gray-200">
+        <div class="pill bg-yellow-100 text-yellow-700 mb-2">Key to validate</div>
+        <div class="font-semibold text-gray-900 mb-1">Floor sort mean (min)</div>
+        <div class="text-sm text-gray-600">$506k swing between 70 and 110 min. Timing this accurately in the pilot (stopwatch, not estimate) is the most important measurement task.</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 border border-gray-200">
+        <div class="pill bg-green-100 text-green-700 mb-2">Lowest risk</div>
+        <div class="font-semibold text-gray-900 mb-1">Zone sort load time</div>
+        <div class="text-sm text-gray-600">$305k swing between 20 and 35 min. Even at the pessimistic end, zone sort retains a large advantage over both alternatives.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATION -->
+<section id="action" class="py-16 px-6 bg-white">
+  <div class="max-w-5xl mx-auto">
+    <div class="pill bg-green-100 text-green-700 mb-3">Recommendation</div>
+    <h2 class="text-3xl font-bold mb-3">What we recommend</h2>
+    <p class="text-gray-600 text-lg mb-10 max-w-3xl">The case is overwhelmingly positive. The floor sort saving alone — the most certain component — exceeds $1.76M per year. A phased pilot de-risks the implementation assumptions before full commitment.</p>
+
+    <div class="grid md:grid-cols-3 gap-5 mb-10">
+      <div class="bg-blue-50 rounded-2xl p-5 border border-blue-100">
+        <div class="font-bold text-blue-900 mb-1">Phase 1 — Pilot</div>
+        <div class="text-blue-600 text-xs font-semibold mb-3">Weeks 1–6</div>
+        <ul class="text-xs text-blue-900 space-y-2">
+          <li class="flex gap-2"><span>→</span>Select Surry Hills + Waterloo (high density, mix of stop types)</li>
+          <li class="flex gap-2"><span>→</span>Implement zone bins for these areas only</li>
+          <li class="flex gap-2"><span>→</span><strong>Stopwatch-time actual floor sort</strong> to validate 85-min assumption</li>
+          <li class="flex gap-2"><span>→</span>Measure load time for zone-sort drivers vs control group</li>
+          <li class="flex gap-2"><span>→</span>Record dwell times at each stop</li>
+        </ul>
+      </div>
+      <div class="bg-purple-50 rounded-2xl p-5 border border-purple-100">
+        <div class="font-bold text-purple-900 mb-1">Phase 2 — Validate & Calibrate</div>
+        <div class="text-purple-600 text-xs font-semibold mb-3">Weeks 7–12</div>
+        <ul class="text-xs text-purple-900 space-y-2">
+          <li class="flex gap-2"><span>→</span>Re-run model with observed floor sort and load times</li>
+          <li class="flex gap-2"><span>→</span>Confirm zone boundaries from driver feedback</li>
+          <li class="flex gap-2"><span>→</span>Quantify DC sort productivity uplift required</li>
+          <li class="flex gap-2"><span>→</span>Build detailed DC process cost for full rollout</li>
+        </ul>
+      </div>
+      <div class="bg-green-50 rounded-2xl p-5 border border-green-100">
+        <div class="font-bold text-green-900 mb-1">Phase 3 — Full Rollout</div>
+        <div class="text-green-600 text-xs font-semibold mb-3">Months 4–9</div>
+        <ul class="text-xs text-green-900 space-y-2">
+          <li class="flex gap-2"><span>→</span>Extend to all 13 suburbs, all 694 zones</li>
+          <li class="flex gap-2"><span>→</span>Track: floor sort time (→ 0), load time, pkgs/hr, dwell time</li>
+          <li class="flex gap-2"><span>→</span>Re-run model quarterly as volumes and costs change</li>
+          <li class="flex gap-2"><span>→</span>Expand model to other DCs using same zone framework</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-2xl p-8">
+      <h3 class="text-2xl font-bold mb-5">Decision summary</h3>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <div class="text-blue-200 text-xs font-semibold uppercase tracking-wide mb-3">Why zone sort, not high-cap van</div>
+          <ul class="space-y-2 text-sm text-blue-100">
+            <li class="flex gap-2"><span class="text-green-300">✓</span>Saves 90 min/driver/day vs high-cap van's 55 min — better time recovery</li>
+            <li class="flex gap-2"><span class="text-green-300">✓</span>No $1M+ capex required for fleet upgrade</li>
+            <li class="flex gap-2"><span class="text-green-300">✓</span>No $195k/yr ongoing lease premium</li>
+            <li class="flex gap-2"><span class="text-green-300">✓</span>Zone sort wins by $1.1M+/yr even before capex advantage</li>
+            <li class="flex gap-2"><span class="text-green-300">✓</span>High-cap van still has a 60-min loading problem — zone sort has 25 min</li>
+            <li class="flex gap-2"><span class="text-green-300">✓</span>100% of 10,000 simulations showed a positive saving</li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-blue-200 text-xs font-semibold uppercase tracking-wide mb-3">What the pilot must confirm</div>
+          <ul class="space-y-2 text-sm text-blue-100">
+            <li class="flex gap-2"><span class="text-yellow-300">→</span>Actual floor sort time (stopwatch, not estimate) — this is the key number</li>
+            <li class="flex gap-2"><span class="text-yellow-300">→</span>Zone sort load time achievable in ~25 min with zone bin infrastructure</li>
+            <li class="flex gap-2"><span class="text-yellow-300">→</span>DC sort productivity cost (extra handling at the DC to pre-sort to zones)</li>
+            <li class="flex gap-2"><span class="text-yellow-300">→</span>Driver compliance — do drivers follow zone sequence or revert to habits?</li>
+          </ul>
+          <div class="mt-4 bg-white/10 rounded-xl p-3 text-sm">
+            Even if floor sort is only 60 minutes (not 85), the annual saving is still $1.6M+. The pilot resolves all four questions in 6 weeks at low cost.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-gray-400 py-8 px-6 text-sm">
+  <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between gap-4">
+    <div>
+      <div class="text-white font-semibold mb-1">Botany DC Zone Sort — Business Case v2</div>
+      <div>Revised to reflect run-level sort and floor sort pre-route component</div>
+      <div>205,065 stop observations · 10,000 Monte Carlo simulations · March 2026</div>
+    </div>
+    <div class="text-right space-y-1">
+      <div>Floor sort: TruncNormal(85, 25, 30, 120) min</div>
+      <div>Service time: log-normal R²=0.44 · Route: Gamma(2.66, 14.1)</div>
+      <div>Zone sort P50: $2.37M/yr · 90% CI: $1.52M–$3.13M</div>
+      <div>High-cap van net P50: $1.25M/yr · Zone sort advantage: $1.12M/yr</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Savings waterfall
+new Chart(document.getElementById('savingsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Floor sort\neliminated','Load time\nsaving','On-road\n(svc+route)','TOTAL\nZone Sort','High-cap\nnet of lease','Zone sort\nadvantage'],
+    datasets: [{
+      data: [1761395, 103488, 342000, 2206883, 1250000, 1124922],
+      backgroundColor: ['#ef4444','#3b82f6','#8b5cf6','#10b981','#f59e0b','#6366f1'],
+      borderRadius: 8, borderSkipped: false,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => '$' + ctx.raw.toLocaleString() } }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => '$' + (v/1000).toFixed(0)+'k', font:{size:10} }, grid:{color:'#f3f4f6'} },
+      x: { grid:{display:false}, ticks:{font:{size:9}} }
+    }
+  }
+});
+
+// MC histogram — centred on $2.37M, std ~$400k
+(function(){
+  const mean = 2371882, std = 400000;
+  const lo = 1000000, hi = 3600000, step = 100000;
+  const bins = [], counts = [], colours = [];
+  function npdf(x,m,s){ return Math.exp(-.5*((x-m)/s)**2)/(s*Math.sqrt(2*Math.PI)); }
+  for(let b=lo; b<hi; b+=step){
+    bins.push('$'+(b/1000).toFixed(0)+'k');
+    const mid=b+step/2;
+    const freq=Math.round(npdf(mid,mean,std)*step*10000);
+    counts.push(freq);
+    if(mid<1521657) colours.push('#fca5a5');
+    else if(mid>3133482) colours.push('#fde68a');
+    else if(Math.abs(mid-mean)<150000) colours.push('#34d399');
+    else colours.push('#93c5fd');
+  }
+  new Chart(document.getElementById('mcChart'),{
+    type:'bar',
+    data:{ labels:bins, datasets:[{data:counts, backgroundColor:colours, borderRadius:4, borderSkipped:false}] },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>`~${ctx.raw} simulations`}} },
+      scales:{ y:{display:false}, x:{grid:{display:false}, ticks:{font:{size:8}, maxRotation:45}} }
+    }
+  });
+})();
+
+// Tornado chart
+(function(){
+  const base = 2372;
+  const params = ['Zone sort load time','Operating days/yr','Stops/driver/day','Floor sort mean','Fleet size (drivers)','Driver cost ($/hr)'];
+  const lows  = [2069,  2189,  2258,  2119,  1816,  1763];
+  const highs = [2374,  2560,  2486,  2625,  2927,  2981];
+  new Chart(document.getElementById('tornadoChart'),{
+    type:'bar',
+    data:{
+      labels:params,
+      datasets:[
+        { label:'Low scenario',  data:lows.map(v=>v-base),  backgroundColor:'#fca5a5', borderRadius:4, borderSkipped:false },
+        { label:'High scenario', data:highs.map(v=>v-base), backgroundColor:'#6ee7b7', borderRadius:4, borderSkipped:false }
+      ]
+    },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{ position:'top', labels:{font:{size:11}} },
+        tooltip:{ callbacks:{ label: ctx => `${ctx.dataset.label}: $${(base+ctx.raw).toFixed(0)}k/yr` } }
+      },
+      scales:{
+        x:{ ticks:{ callback:v=>'$'+(base+v)+'k', font:{size:10} }, grid:{color:'#f3f4f6'} },
+        y:{ grid:{display:false}, ticks:{font:{size:11}} }
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

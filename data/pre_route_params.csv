@@ -1,0 +1,4 @@
+scenario,fs_dist_type,fs_mean_min,fs_std_min,fs_raw_mean_min,fs_raw_std_min,fs_min_min,fs_max_min,fs_truncnorm_a,fs_truncnorm_b,load_mean_min,load_std_min,total_pre_route_mean_min
+current,truncnorm,85.1014,19.9141,90.0,25.0,30.0,120.0,-2.4,1.2,30.0,3.6,115.1014
+zone_sort,fixed,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,25.0,3.0,25.0
+high_cap,fixed,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,60.0,7.2,60.0

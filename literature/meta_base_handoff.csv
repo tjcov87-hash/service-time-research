@@ -1,0 +1,7 @@
+cell_id,cell_name,stop_type,geography,n_studies,total_n,handoff_mean_sec,handoff_sd_sec,handoff_lognorm_mu,handoff_lognorm_sigma,i2,ci_low,ci_high,au_adjustment,source
+C1,CBD Residential,Residential SFD,CBD / Urban Dense,0,0,90.0,40.0,4.3,0.43,,,,1.05,synthetic_fallback
+C2,Urban MDU,MDU / Apartment,CBD / Urban Dense,4,878,229.9,189.3,5.1788,0.7194,99.5,222.4,237.2,1.15,literature
+C3,CBD Commercial,Commercial,CBD / Urban Dense,2,1047,279.5,129.8,5.5354,0.4419,98.6,271.8,287.1,1.0,literature
+C4,Suburban Residential,Residential SFD,Suburban / Fringe,5,16600,105.7,80.8,4.4312,0.6778,100.0,104.9,106.5,0.95,literature
+C5,Suburban MDU,MDU / Apartment,Suburban / Fringe,0,0,200.0,85.0,5.19,0.41,,,,1.1,synthetic_fallback
+C6,Suburban Commercial,Commercial,Suburban / Fringe,0,0,70.0,30.0,4.12,0.41,,,,0.95,synthetic_fallback

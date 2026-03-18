@@ -1,0 +1,26 @@
+=================================================================
+PRE-ROUTE TIME MODEL — BOTANY DC
+=================================================================
+
+Current state pre-route time:
+  Floor sort (mean):   85.1 min  (truncated normal, range 30–120 min)
+  Load time:           30 min
+  Total pre-route:     115.1 min / driver / day
+  Annual cost:         $-2,382,323  (before any deliveries start)
+
+Scenario comparison:
+  Scenario               Floor sort     Load    Total   vs Current  Annual saving
+  ----------------------------------------------------------------------------
+  current                    85.1m     30m   115.1m       +0.0m   $           0/yr
+  zone_sort                   0.0m     25m    25.0m      +90.1m   $   1,864,883/yr
+  high_cap                    0.0m     60m    60.0m      +55.1m   $   1,140,467/yr
+
+Pre-route saving vs current state:
+  Zone sort:       $ 1,864,883/yr  (90.1 min/driver/day saved)
+  High-cap van:    $ 1,140,467/yr  (55.1 min/driver/day saved)
+
+  Note: High-cap van INCREASES load time by 30 min vs current state = -$-620,928/yr load penalty
+
+Zone sort pre-route advantage over high-cap van:
+  Load time saving: 35 min/driver/day
+  Annual advantage: $724,416/yr  (zone sort wins on pre-route alone)

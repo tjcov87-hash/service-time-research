@@ -1,0 +1,58 @@
+ROUTE EFFICIENCY MODEL — BOTANY DC
+Phase 3: TSP Analysis Report
+=================================================================
+
+TSP SOLUTION SUMMARY
+=================================================================
+  Zones solved:              694
+  Avg TSP time/zone:         3.7 min
+  Median TSP time/zone:      3.2 min
+  Avg current route/zone:    4.4 min
+  Avg RER:                   0.861
+  Median RER:                0.864
+  Zones with RER > 0.90:     117 (16.9%)
+
+=================================================================
+GAP DISTRIBUTION FIT (Gamma)
+=================================================================
+
+  Gap observations:   694 zones
+  Gap range:          3.3s – 269.7s
+  Gap mean:           37.6s
+  Gap median:         29.0s
+  Gap std:            30.1s
+
+  Gamma fit:
+    alpha (shape):  2.6633
+    beta  (scale):  14.1040
+    loc:            0.0000 (fixed at 0)
+    Mean of fit:    37.6s
+    Std of fit:     23.0s
+  KS test: stat=0.0945, p=0.0000  (marginal — sample size inflates stat)
+
+=================================================================
+TRAVEL TIME SAVING FROM ZONE PRE-SORT
+=================================================================
+
+  Zones analysed:            694
+  Avg TSP route time/zone:   3.7 min
+  Avg current route/zone:    4.4 min
+  Avg gap (waste)/zone:      37.6s  (29.0s median)
+  Avg Route Efficiency Ratio: 0.861  (1.0 = perfect, current state achieves 86.1%)
+
+  Zones/driver/day:          4.7
+  Travel saving/driver/day:  177s  = 3.0 minutes
+  Fleet saving/day:          7.2 driver-hours
+
+  Annual saving (travel only, 264 days, $32/hr):
+    Driver-hours saved/year:  1,912
+    Dollar value:             $61,174
+
+  COMBINED SAVING (Phase 2 + Phase 3):
+    Service time saving:      $   280,727/yr
+    Travel time saving:       $    61,174/yr
+    ----------------------------------------
+    TOTAL (pre-Monte Carlo):  $   341,901/yr
+
+  NOTE: Monte Carlo in Phase 5 will add confidence intervals
+  and account for variability. This is point-estimate only.

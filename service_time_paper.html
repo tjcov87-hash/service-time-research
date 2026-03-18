@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parcel Delivery Service Time — Research Paper</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    html { scroll-behavior: smooth; }
+    .nav-link { transition: color .2s, border-color .2s; }
+    .nav-link:hover { color: #60a5fa; }
+    .nav-link.active { color: #60a5fa; border-bottom: 2px solid #60a5fa; }
+    .cell-card { transition: all .25s; cursor: pointer; }
+    .cell-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.15); }
+    .eq { font-family: 'Courier New', monospace; background: #0f172a;
+          color: #7dd3fc; border-radius: 8px; padding: 14px 20px;
+          font-size: .85rem; line-height: 1.9; overflow-x: auto; }
+    .data-table th { background: #1e293b; color: #e2e8f0; font-size: .72rem;
+                     letter-spacing: .05em; text-transform: uppercase; padding: 10px 12px; }
+    .data-table td { padding: 9px 12px; font-size: .82rem; border-bottom: 1px solid #f1f5f9; }
+    .data-table tr:hover td { background: #f8fafc; }
+    .data-table tr:nth-child(even) td { background: #fafafa; }
+    .data-table tr:nth-child(even):hover td { background: #f0f9ff; }
+    input[type=range] { accent-color: #3b82f6; }
+    .badge { display:inline-flex; align-items:center; padding:2px 8px;
+             border-radius:9999px; font-size:.7rem; font-weight:600; }
+    .fade-section { opacity:0; transform:translateY(20px);
+                    transition: opacity .5s ease, transform .5s ease; }
+    .fade-section.visible { opacity:1; transform:translateY(0); }
+    .accent-c1{color:#7c3aed;} .accent-c2{color:#db2777;} .accent-c3{color:#ea580c;}
+    .accent-c4{color:#16a34a;} .accent-c5{color:#0891b2;} .accent-c6{color:#ca8a04;}
+    .lit-chip { font-size:.68rem; padding:1px 6px; border-radius:4px;
+                background:#dcfce7; color:#166534; font-weight:600; }
+    .syn-chip { font-size:.68rem; padding:1px 6px; border-radius:4px;
+                background:#fef3c7; color:#92400e; font-weight:600; }
+    .chart-container { position:relative; }
+    .atl-bar { transition: width .4s ease; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<nav class="sticky top-0 z-50 bg-slate-900 border-b border-slate-700 shadow-lg">
+  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+      </div>
+      <div>
+        <div class="text-white font-semibold text-sm">Service Time Research</div>
+        <div class="text-slate-400 text-xs">Last-Mile Delivery · March 2026</div>
+      </div>
+    </div>
+    <div class="hidden md:flex items-center gap-6 text-sm text-slate-400">
+      <a href="#topology"   class="nav-link pb-1">Topology</a>
+      <a href="#sliding"    class="nav-link pb-1">Sliding Scale</a>
+      <a href="#atl"        class="nav-link pb-1">ATL Analysis</a>
+      <a href="#model"      class="nav-link pb-1">Model</a>
+      <a href="#literature" class="nav-link pb-1">Literature</a>
+      <a href="#validation"  class="nav-link pb-1">Validation</a>
+      <a href="#methodology" class="nav-link pb-1">Methodology</a>
+    </div>
+    <div class="hidden md:flex items-center gap-2">
+      <span class="badge bg-blue-900 text-blue-300">v2.1</span>
+      <span class="badge bg-green-900 text-green-300">10 papers</span>
+      <span class="badge bg-amber-900 text-amber-300">ATL calibrated</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="bg-gradient-to-br from-slate-900 via-slate-800 to-blue-950 text-white py-20 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="inline-flex items-center gap-2 bg-blue-500/20 border border-blue-400/30
+                rounded-full px-4 py-1.5 text-blue-300 text-xs font-semibold mb-6 tracking-wide uppercase">
+      Working Paper · Logistics Operations Research
+    </div>
+    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4 max-w-4xl">
+      How long does it actually take<br/>
+      <span class="text-blue-300">to deliver a parcel?</span>
+    </h1>
+    <p class="text-slate-300 text-lg max-w-2xl mb-12 leading-relaxed">
+      A systematic review of 10 empirical studies establishing literature-grounded service time
+      estimates for six last-mile delivery topology types — with a sliding scale model and
+      Authority-to-Leave (ATL) calibration.
+    </p>
+
+    <!-- Hero stat cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <div class="bg-white/8 backdrop-blur border border-white/15 rounded-2xl p-5">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-1">Topology cells</div>
+        <div class="text-4xl font-extrabold text-white">6</div>
+        <div class="text-slate-400 text-sm mt-1">geography × stop type</div>
+      </div>
+      <div class="bg-white/8 backdrop-blur border border-white/15 rounded-2xl p-5">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-1">Service time n=1 (85% ATL)</div>
+        <div class="text-4xl font-extrabold text-white" id="heroRange">90–251s</div>
+        <div class="text-slate-400 text-sm mt-1" id="heroRangeSub">across all topology types</div>
+      </div>
+      <div class="bg-white/8 backdrop-blur border border-white/15 rounded-2xl p-5">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-1">Multi-stop increment</div>
+        <div class="text-4xl font-extrabold text-white">8.7<span class="text-2xl">–12s</span></div>
+        <div class="text-slate-400 text-sm mt-1">per additional package</div>
+      </div>
+      <div class="bg-amber-500/20 backdrop-blur border border-amber-400/30 rounded-2xl p-5">
+        <div class="text-amber-300 text-xs font-semibold uppercase tracking-wide mb-1">ATL impact (85% ATL)</div>
+        <div class="text-4xl font-extrabold text-white" id="heroAtlPct">↓16–25%</div>
+        <div class="text-amber-300 text-sm mt-1">vs fully attended baseline</div>
+      </div>
+    </div>
+
+    <!-- Three-component summary -->
+    <div class="bg-white/6 border border-white/10 rounded-2xl p-6">
+      <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-4">The model — three additive components</div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 bg-blue-500/30 rounded-xl flex items-center justify-center flex-shrink-0 text-blue-300 font-bold text-lg">1</div>
+          <div>
+            <div class="text-white font-semibold text-sm mb-0.5">Walk time</div>
+            <div class="text-slate-400 text-xs leading-relaxed">Density-dependent. Shorter in dense urban (30s) and longer in low-density suburban (52s). Derived from Poisson nearest-neighbour walk geometry. Identical for ATL and attended.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 bg-green-500/30 rounded-xl flex items-center justify-center flex-shrink-0 text-green-300 font-bold text-lg">2</div>
+          <div>
+            <div class="text-white font-semibold text-sm mb-0.5">Handoff (ATL-weighted)</div>
+            <div class="text-slate-400 text-xs leading-relaxed">ATL: scan + place parcel + photo (much shorter). Attended: door wait + interaction. Fleet blend = ATL% × ATL handoff + (1−ATL%) × attended handoff.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 bg-amber-500/30 rounded-xl flex items-center justify-center flex-shrink-0 text-amber-300 font-bold text-lg">3</div>
+          <div>
+            <div class="text-white font-semibold text-sm mb-0.5">Per-package increment</div>
+            <div class="text-slate-400 text-xs leading-relaxed">8.7–12s per additional package at the same stop. Linear model. Grounded in Winkenbach (2021) log-coefficient derivation for door delivery.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ TOPOLOGY CELLS ══════════════════ -->
+<section id="topology" class="py-16 px-6 fade-section">
+  <div class="max-w-6xl mx-auto">
+
+    <h2 class="text-2xl font-bold text-slate-900 mb-1">Six Delivery Topology Cells</h2>
+    <p class="text-slate-500 mb-10 max-w-2xl">
+      Service time is modelled across a 2×3 grid. The two dimensions — geography band and stop type —
+      are defined precisely below. Each cell is a distinct service time regime with its own density
+      reference, handoff distribution, and ATL profile.
+    </p>
+
+    <!-- ── Geography definitions ─────────────────────────────────────── -->
+    <div class="mb-10">
+      <h3 class="text-lg font-bold text-slate-800 mb-1">Dimension 1 — Geography Band</h3>
+      <p class="text-slate-500 text-sm mb-5">Defined by stop density (stops/km²) and built-environment characteristics.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+
+        <div class="bg-slate-900 text-white rounded-2xl p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-purple-500/30 rounded-xl flex items-center justify-center text-purple-300 font-extrabold text-sm flex-shrink-0">CBD</div>
+            <div>
+              <div class="font-bold text-base">CBD / Urban Dense</div>
+              <div class="text-slate-400 text-xs">Density ≥ 2,000 stops/km² (ref. 2,500–4,000)</div>
+            </div>
+          </div>
+          <ul class="text-slate-300 text-sm space-y-2 leading-relaxed">
+            <li class="flex gap-2"><span class="text-purple-400 font-bold mt-0.5">▸</span><span>High-density urban core — typically within 3–5 km of the CBD</span></li>
+            <li class="flex gap-2"><span class="text-purple-400 font-bold mt-0.5">▸</span><span>Multi-storey mixed-use buildings; minimal parking adjacent to door</span></li>
+            <li class="flex gap-2"><span class="text-purple-400 font-bold mt-0.5">▸</span><span>Driver typically parks on arterial street and walks to multiple stops per block</span></li>
+            <li class="flex gap-2"><span class="text-purple-400 font-bold mt-0.5">▸</span><span>Short walk times (30–34s) but complex building access raises handoff</span></li>
+            <li class="flex gap-2"><span class="text-purple-400 font-bold mt-0.5">▸</span><span class="font-medium text-white">AU examples: Sydney CBD, Darlinghurst, Surry Hills, Waterloo, Alexandria</span></li>
+          </ul>
+        </div>
+
+        <div class="bg-slate-800 text-white rounded-2xl p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-green-500/30 rounded-xl flex items-center justify-center text-green-300 font-extrabold text-sm flex-shrink-0">SUB</div>
+            <div>
+              <div class="font-bold text-base">Suburban / Fringe</div>
+              <div class="text-slate-400 text-xs">Density 800–1,500 stops/km² (ref. 800–1,500)</div>
+            </div>
+          </div>
+          <ul class="text-slate-300 text-sm space-y-2 leading-relaxed">
+            <li class="flex gap-2"><span class="text-green-400 font-bold mt-0.5">▸</span><span>Residential suburbs and strip-retail precincts beyond the urban core</span></li>
+            <li class="flex gap-2"><span class="text-green-400 font-bold mt-0.5">▸</span><span>Predominantly detached or low-rise dwellings; street-level parking available</span></li>
+            <li class="flex gap-2"><span class="text-green-400 font-bold mt-0.5">▸</span><span>Driver typically parks directly in front of or adjacent to the stop</span></li>
+            <li class="flex gap-2"><span class="text-green-400 font-bold mt-0.5">▸</span><span>Longer walk times (41–52s) but simpler door access reduces handoff</span></li>
+            <li class="flex gap-2"><span class="text-green-400 font-bold mt-0.5">▸</span><span class="font-medium text-white">AU examples: Bondi, Maroubra, Kensington, Glebe, Rose Bay, Paddington</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Stop type definitions ─────────────────────────────────────── -->
+      <h3 class="text-lg font-bold text-slate-800 mb-1">Dimension 2 — Stop Type</h3>
+      <p class="text-slate-500 text-sm mb-5">Defined by the physical nature of the delivery interaction at the door.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+
+        <div class="bg-white border-2 border-purple-200 rounded-2xl p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold text-xs flex-shrink-0">SFD</div>
+            <div class="font-semibold text-slate-900">Residential SFD</div>
+          </div>
+          <div class="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-2">Definition</div>
+          <p class="text-sm text-slate-700 leading-relaxed mb-3">
+            Single-family dwelling or townhouse with direct street-level door access. No shared building
+            entry or common areas. Includes freestanding houses, semi-detached, and row terrace.
+          </p>
+          <div class="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-2">ATL profile</div>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            High ATL compatibility — safe-drop location (porch, letterbox area, side passage) typically
+            available. ATL handoff very short: scan + place + photograph (≈35–75s).
+          </p>
+        </div>
+
+        <div class="bg-white border-2 border-pink-200 rounded-2xl p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center text-pink-600 font-bold text-xs flex-shrink-0">MDU</div>
+            <div class="font-semibold text-slate-900">MDU / Apartment</div>
+          </div>
+          <div class="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-2">Definition</div>
+          <p class="text-sm text-slate-700 leading-relaxed mb-3">
+            Multi-dwelling unit building requiring shared entry. Includes apartments, units, and serviced
+            residences. Driver must navigate intercom, security door, lifts, and internal corridors
+            to reach the individual door.
+          </p>
+          <div class="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-2">ATL profile</div>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Partial ATL benefit — building navigation is unavoidable even for ATL deliveries.
+            ATL saving is on door-wait only; building access time (buzzing in, lift, corridor) remains.
+          </p>
+        </div>
+
+        <div class="bg-white border-2 border-orange-200 rounded-2xl p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 font-bold text-xs flex-shrink-0">COM</div>
+            <div class="font-semibold text-slate-900">Commercial</div>
+          </div>
+          <div class="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-2">Definition</div>
+          <p class="text-sm text-slate-700 leading-relaxed mb-3">
+            Business premises — retail, office, hospitality, or industrial. Includes reception-managed
+            buildings, street-front shops, loading docks, and service entrances. Business hours
+            constrain delivery windows.
+          </p>
+          <div class="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-2">ATL profile</div>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Lower ATL applicability — most commercial stops require confirmation of receipt or
+            proof of identity. ATL mainly applies to simple strip-retail drop-offs.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── 2×3 matrix ─────────────────────────────────────────────────── -->
+      <h3 class="text-lg font-bold text-slate-800 mb-4">The 2×3 Cell Matrix</h3>
+      <div class="overflow-x-auto mb-2">
+        <table class="w-full border-collapse text-sm">
+          <thead>
+            <tr>
+              <th class="w-32 bg-slate-100 border border-slate-300 px-4 py-3 text-left text-slate-500 text-xs font-semibold uppercase tracking-wide"></th>
+              <th class="bg-purple-50 border border-slate-300 px-4 py-3 text-center text-purple-700 font-semibold">Residential SFD</th>
+              <th class="bg-pink-50 border border-slate-300 px-4 py-3 text-center text-pink-700 font-semibold">MDU / Apartment</th>
+              <th class="bg-orange-50 border border-slate-300 px-4 py-3 text-center text-orange-700 font-semibold">Commercial</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="bg-slate-900 border border-slate-300 px-4 py-3 text-white font-semibold text-xs">CBD / Urban Dense<br/><span class="font-normal text-slate-400">≥2,000/km²</span></td>
+              <td class="bg-purple-50 border border-slate-300 px-4 py-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <div class="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white font-extrabold text-xs flex-shrink-0">C1</div>
+                  <div class="font-semibold text-purple-900">CBD Residential</div>
+                </div>
+                <div class="text-xs text-purple-700">δ ref: 3,000/km²<br/>Walk: 32s · Att: 90s · ATL: 55s</div>
+              </td>
+              <td class="bg-pink-50 border border-slate-300 px-4 py-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <div class="w-8 h-8 rounded-lg bg-pink-600 flex items-center justify-center text-white font-extrabold text-xs flex-shrink-0">C2</div>
+                  <div class="font-semibold text-pink-900">Urban MDU</div>
+                </div>
+                <div class="text-xs text-pink-700">δ ref: 2,500/km²<br/>Walk: 34s · Att: 240s · ATL: 160s</div>
+              </td>
+              <td class="bg-orange-50 border border-slate-300 px-4 py-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <div class="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center text-white font-extrabold text-xs flex-shrink-0">C3</div>
+                  <div class="font-semibold text-orange-900">CBD Commercial</div>
+                </div>
+                <div class="text-xs text-orange-700">δ ref: 4,000/km²<br/>Walk: 30s · Att: 280s · ATL: 210s</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="bg-slate-700 border border-slate-300 px-4 py-3 text-white font-semibold text-xs">Suburban / Fringe<br/><span class="font-normal text-slate-400">800–1,500/km²</span></td>
+              <td class="bg-green-50 border border-slate-300 px-4 py-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <div class="w-8 h-8 rounded-lg bg-green-600 flex items-center justify-center text-white font-extrabold text-xs flex-shrink-0">C4</div>
+                  <div class="font-semibold text-green-900">Suburban Residential</div>
+                </div>
+                <div class="text-xs text-green-700">δ ref: 800/km²<br/>Walk: 52s · Att: 106s · ATL: 75s</div>
+              </td>
+              <td class="bg-cyan-50 border border-slate-300 px-4 py-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <div class="w-8 h-8 rounded-lg bg-cyan-600 flex items-center justify-center text-white font-extrabold text-xs flex-shrink-0">C5</div>
+                  <div class="font-semibold text-cyan-900">Suburban MDU</div>
+                </div>
+                <div class="text-xs text-cyan-700">δ ref: 1,200/km²<br/>Walk: 44s · Att: 200s · ATL: 130s</div>
+              </td>
+              <td class="bg-yellow-50 border border-slate-300 px-4 py-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <div class="w-8 h-8 rounded-lg bg-yellow-600 flex items-center justify-center text-white font-extrabold text-xs flex-shrink-0">C6</div>
+                  <div class="font-semibold text-yellow-900">Suburban Commercial</div>
+                </div>
+                <div class="text-xs text-yellow-700">δ ref: 1,500/km²<br/>Walk: 41s · Att: 70s · ATL: 45s</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-slate-400 mb-10">Att = attended handoff mean (s) · ATL = ATL handoff mean (s) · δ = reference stop density</p>
+    </div>
+
+    <!-- ── Cell cards ──────────────────────────────────────────────────── -->
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-slate-800">Cell Detail Cards</h3>
+      <span class="text-slate-500 text-sm">Click a card for full breakdown</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="cellGrid"></div>
+    <div id="cellDetail" class="hidden mt-6 rounded-2xl border p-6 bg-white shadow-lg"></div>
+  </div>
+</section>
+
+<!-- ══════════════════ SLIDING SCALE ══════════════════ -->
+<section id="sliding" class="py-16 px-6 bg-white fade-section">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold text-slate-900 mb-1">Sliding Scale — Service Time by Packages at Stop</h2>
+    <p class="text-slate-500 mb-8 max-w-2xl">
+      Total expected stop time (walk + ATL-weighted handoff + increment × additional packages).
+      Adjust ATL rate and package count to explore all scenarios.
+    </p>
+
+    <!-- Controls row -->
+    <div class="flex flex-wrap gap-4 mb-6 items-center">
+      <div class="flex items-center gap-2">
+        <span class="text-sm font-semibold text-slate-700">Cells:</span>
+        <div id="cellToggles" class="flex flex-wrap gap-2"></div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="bg-slate-50 rounded-2xl border border-slate-200 p-6 mb-6">
+      <div class="chart-container" style="height:380px">
+        <canvas id="slidingChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Two sliders + readout -->
+    <div class="bg-slate-900 rounded-2xl p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+        <div class="flex items-center gap-4">
+          <span class="text-white font-semibold text-sm whitespace-nowrap">Packages n =</span>
+          <input type="range" id="nSlider" min="1" max="10" value="1" class="flex-1" oninput="updateAll()">
+          <span id="nLabel" class="text-blue-300 font-bold text-lg w-6 text-right">1</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="text-white font-semibold text-sm whitespace-nowrap">ATL rate =</span>
+          <input type="range" id="atlSlider" min="0" max="100" value="85" class="flex-1" oninput="updateAll()">
+          <span id="atlLabel" class="text-amber-300 font-bold text-lg w-10 text-right">85%</span>
+        </div>
+      </div>
+      <div id="readout" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ ATL ANALYSIS ══════════════════ -->
+<section id="atl" class="py-16 px-6 bg-slate-50 fade-section">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold text-slate-900 mb-1">ATL Rate Sensitivity</h2>
+    <p class="text-slate-500 mb-8 max-w-2xl">
+      Authority-to-Leave (ATL) dramatically reduces the handoff component by eliminating the
+      door-wait and recipient interaction. The fleet ATL rate is the single most impactful
+      lever on average service time.
+    </p>
+
+    <!-- ATL explainer cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+            <span class="text-red-600 font-bold text-sm">AT</span>
+          </div>
+          <div>
+            <div class="font-semibold text-slate-900">Attended delivery</div>
+            <div class="text-xs text-slate-500">Recipient must be present</div>
+          </div>
+        </div>
+        <ul class="text-sm text-slate-600 space-y-1.5 leading-relaxed">
+          <li>• Knock / ring doorbell</li>
+          <li>• Wait for resident to answer (variable — 15–90s)</li>
+          <li>• Present parcel, confirm recipient</li>
+          <li>• Scan and obtain acknowledgement</li>
+          <li>• If no answer: re-attempt card, return to depot</li>
+        </ul>
+        <div class="mt-4 bg-red-50 rounded-xl p-3 text-xs text-red-700 font-medium">
+          Handoff range: 55–280s depending on topology. Oslo empirical: 199s handoff at residential.
+        </div>
+      </div>
+      <div class="bg-white border border-slate-200 rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
+            <span class="text-emerald-600 font-bold text-sm">ATL</span>
+          </div>
+          <div>
+            <div class="font-semibold text-slate-900">Authority to Leave</div>
+            <div class="text-xs text-slate-500">Pre-authorised safe drop</div>
+          </div>
+        </div>
+        <ul class="text-sm text-slate-600 space-y-1.5 leading-relaxed">
+          <li>• Walk to nominated safe location</li>
+          <li>• Place parcel (no recipient interaction required)</li>
+          <li>• Scan + photograph for proof of delivery</li>
+          <li>• No wait time — immediate return to vehicle</li>
+          <li>• No failed delivery re-attempt cost</li>
+        </ul>
+        <div class="mt-4 bg-emerald-50 rounded-xl p-3 text-xs text-emerald-700 font-medium">
+          Handoff range: 45–210s depending on topology. Oslo empirical: 78s handoff ATL residential.
+        </div>
+      </div>
+    </div>
+
+    <!-- ATL per-cell breakdown -->
+    <h3 class="font-semibold text-slate-800 text-lg mb-4">Per-cell handoff: ATL vs Attended</h3>
+    <div class="overflow-x-auto rounded-2xl shadow border border-slate-200 bg-white mb-8">
+      <table class="data-table w-full" id="atlBreakdownTable">
+        <thead>
+          <tr>
+            <th class="text-left">Cell</th>
+            <th class="text-right">Walk</th>
+            <th class="text-right" style="background:#7f1d1d">Attended Handoff</th>
+            <th class="text-right" style="background:#14532d">ATL Handoff</th>
+            <th class="text-right" style="background:#1e40af">ATL Saving</th>
+            <th class="text-right">Total n=1 (attended)</th>
+            <th class="text-right">Total n=1 (ATL)</th>
+            <th>ATL Source</th>
+          </tr>
+        </thead>
+        <tbody id="atlBreakdownBody"></tbody>
+      </table>
+    </div>
+
+    <!-- ATL sensitivity chart -->
+    <h3 class="font-semibold text-slate-800 text-lg mb-4">Fleet average service time vs ATL rate</h3>
+    <div class="bg-white border border-slate-200 rounded-2xl p-6">
+      <div class="chart-container" style="height:320px">
+        <canvas id="atlChart"></canvas>
+      </div>
+      <p class="text-xs text-slate-400 mt-3">
+        Each line = one topology cell. X-axis = fleet ATL rate (0%=fully attended, 100%=all ATL).
+        The 85% line represents the assumed fleet composition for Australian B2C parcel delivery.
+      </p>
+    </div>
+
+    <!-- ATL notes -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-sm text-amber-800">
+        <strong class="block text-xs uppercase tracking-wide mb-2">MDU ATL caveat</strong>
+        For MDU/apartment buildings, ATL still requires building entry (buzz-in or key), floor navigation, and safe placement.
+        ATL savings are smaller for MDU cells than residential — the building access component is largely unavoidable.
+      </div>
+      <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 text-sm text-blue-800">
+        <strong class="block text-xs uppercase tracking-wide mb-2">Commercial ATL caveat</strong>
+        Commercial ATL deliveries still typically require locating a safe drop point or brief reception interaction.
+        85% ATL rate for commercial stops is a ceiling assumption — effective rate is likely lower in CBD high-security buildings.
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-2xl p-5 text-sm text-green-800">
+        <strong class="block text-xs uppercase tracking-wide mb-2">Oslo empirical anchor</strong>
+        ATL residential handoff calibrated to Kjelle et al. (2023): unattended total 119s at Oslo density (1,500/km²),
+        implying handoff = 78s. AU-adjusted to 75s for C4. Attended calibrated to 199s (Oslo attended 240s − walk 41s).
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FULL TABLE ══════════════════ -->
+<section class="py-16 px-6 bg-white fade-section">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold text-slate-900 mb-1">Complete Sliding Scale Table</h2>
+    <p class="text-slate-500 mb-2">All values in seconds (mean) at 85% ATL fleet assumption.</p>
+    <div class="flex items-center gap-3 mb-6">
+      <span class="text-sm text-slate-600">ATL rate for table:</span>
+      <input type="range" id="tableAtlSlider" min="0" max="100" value="85" class="w-40"
+             oninput="document.getElementById('tableAtlVal').textContent=this.value+'%'; renderFullTable()">
+      <span id="tableAtlVal" class="text-blue-700 font-bold text-sm">85%</span>
+    </div>
+
+    <div class="overflow-x-auto rounded-2xl shadow border border-slate-200">
+      <table class="data-table w-full" id="fullTable">
+        <thead>
+          <tr>
+            <th class="text-left">Cell</th>
+            <th class="text-left">Topology</th>
+            <th class="text-right">n=1</th>
+            <th class="text-right">n=2</th>
+            <th class="text-right">n=3</th>
+            <th class="text-right">n=5</th>
+            <th class="text-right">n=10</th>
+            <th class="text-right">Walk</th>
+            <th class="text-right">Handoff (blended)</th>
+            <th class="text-right">β/pkg</th>
+          </tr>
+        </thead>
+        <tbody id="fullTableBody"></tbody>
+      </table>
+    </div>
+    <p class="text-xs text-slate-400 mt-3">
+      Walk = Poisson nearest-neighbour model (density-dependent). Handoff = ATL-weighted blend at table ATL rate.
+      Signature premium (+45s mean) not included — add separately if required.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════ MODEL SPEC ══════════════════ -->
+<section id="model" class="py-16 px-6 bg-slate-50 fade-section">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold text-slate-900 mb-1">Model Specification</h2>
+    <p class="text-slate-500 mb-10 max-w-2xl">Three additive components. ATL rate governs the handoff blend.</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div>
+        <h3 class="font-semibold text-slate-800 mb-3">Full model equation</h3>
+        <div class="eq mb-4">
+T(n, δ, c, α, σ) =<br/>
+&nbsp;&nbsp;T<sub>walk</sub>(δ)<br/>
+&nbsp;&nbsp;+ [α × T<sub>handoff,ATL</sub>(c) + (1−α) × T<sub>handoff,att</sub>(c)]<br/>
+&nbsp;&nbsp;+ (n−1) × β<sub>c</sub><br/>
+&nbsp;&nbsp;+ σ × 45
+        </div>
+        <div class="bg-slate-100 rounded-xl p-4 text-xs font-mono text-slate-700 mb-4 space-y-1">
+          <div>where:</div>
+          <div>&nbsp;&nbsp;α  = ATL rate (0–1), fleet assumption = 0.85</div>
+          <div>&nbsp;&nbsp;δ  = stop density (stops/km²)</div>
+          <div>&nbsp;&nbsp;c  = topology cell (C1–C6)</div>
+          <div>&nbsp;&nbsp;β  = increment per additional pkg (s)</div>
+          <div>&nbsp;&nbsp;σ  = 1 if signature required, else 0</div>
+        </div>
+
+        <h3 class="font-semibold text-slate-800 mb-3 mt-6">Walk time — Poisson nearest-neighbour</h3>
+        <div class="eq mb-4">
+d̄<sub>walk</sub> = 1.35 × 500 / √δ  <span style="color:#94a3b8">[metres, one-way]</span><br/>
+T<sub>walk</sub>(δ) = 2 × d̄<sub>walk</sub> / 1.2 + 12  <span style="color:#94a3b8">[seconds]</span>
+        </div>
+
+        <h3 class="font-semibold text-slate-800 mb-3 mt-6">Distributional form</h3>
+        <div class="eq">
+T<sub>handoff</sub> ~ LogNormal(μ<sub>ln</sub>, σ<sub>ln</sub>)<br/>
+μ<sub>ln</sub> = ln(μ) − ½σ<sub>ln</sub>²<br/>
+σ<sub>ln</sub> = √[ln(1 + (σ/μ)²)]
+        </div>
+
+        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800">
+          <strong class="block text-xs uppercase tracking-wide mb-1">Why log-normal?</strong>
+          Service time is strictly positive, right-skewed, and multiplicatively influenced by
+          independent factors (access difficulty, recipient behaviour, package size). Formal
+          distributional testing across the 10-study corpus consistently favoured log-normal
+          over exponential, gamma, or normal.
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-semibold text-slate-800 mb-3">Walk time by stop density</h3>
+        <div class="overflow-hidden rounded-xl border border-slate-200">
+          <table class="data-table w-full text-sm">
+            <thead>
+              <tr>
+                <th class="text-right">Density (stops/km²)</th>
+                <th class="text-right">Avg walk</th>
+                <th class="text-right">T<sub>walk</sub></th>
+                <th>Context</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="text-right">50</td><td class="text-right">96 m</td><td class="text-right font-medium">171 s</td><td class="text-slate-500">Rural fringe</td></tr>
+              <tr><td class="text-right">100</td><td class="text-right">68 m</td><td class="text-right font-medium">124 s</td><td class="text-slate-500">Outer suburban</td></tr>
+              <tr><td class="text-right">300</td><td class="text-right">39 m</td><td class="text-right font-medium">77 s</td><td class="text-slate-500">Suburban</td></tr>
+              <tr class="bg-green-50"><td class="text-right font-semibold">800</td><td class="text-right">24 m</td><td class="text-right font-bold text-green-700">52 s</td><td class="text-green-700 font-medium">C4 — Bondi, Maroubra</td></tr>
+              <tr class="bg-cyan-50"><td class="text-right font-semibold">1,200</td><td class="text-right">19 m</td><td class="text-right font-bold text-cyan-700">44 s</td><td class="text-cyan-700 font-medium">C5 — Glebe, Kensington</td></tr>
+              <tr class="bg-yellow-50"><td class="text-right font-semibold">1,500</td><td class="text-right">17 m</td><td class="text-right font-bold text-yellow-700">41 s</td><td class="text-yellow-700 font-medium">C6 — Suburban commercial</td></tr>
+              <tr><td class="text-right">2,000</td><td class="text-right">15 m</td><td class="text-right font-medium">37 s</td><td class="text-slate-500">Urban dense</td></tr>
+              <tr class="bg-pink-50"><td class="text-right font-semibold">2,500</td><td class="text-right">13 m</td><td class="text-right font-bold text-pink-700">34 s</td><td class="text-pink-700 font-medium">C2 — Urban MDU</td></tr>
+              <tr class="bg-purple-50"><td class="text-right font-semibold">3,000</td><td class="text-right">12 m</td><td class="text-right font-bold text-purple-700">32 s</td><td class="text-purple-700 font-medium">C1 — CBD Residential</td></tr>
+              <tr class="bg-orange-50"><td class="text-right font-semibold">4,000</td><td class="text-right">11 m</td><td class="text-right font-bold text-orange-700">30 s</td><td class="text-orange-700 font-medium">C3 — CBD Commercial</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-slate-400 mt-2">Walk SD ≈ 35% of mean (parking location variability).</p>
+
+        <div class="mt-5 bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800">
+          <strong class="block text-xs uppercase tracking-wide mb-1">Increment coefficients (β<sub>c</sub>)</strong>
+          <div class="grid grid-cols-3 gap-3 mt-2 text-xs">
+            <div class="text-center"><div class="font-bold text-base text-amber-900">10.0 s</div><div class="text-amber-600">Residential</div></div>
+            <div class="text-center"><div class="font-bold text-base text-amber-900">8.7 s</div><div class="text-amber-600">MDU / Apt</div></div>
+            <div class="text-center"><div class="font-bold text-base text-amber-900">12.0 s</div><div class="text-amber-600">Commercial</div></div>
+          </div>
+          <div class="text-amber-700 text-xs mt-2">Per additional package at same stop (linear model). Grounded in Winkenbach (2021) log-coefficient analysis (~10s/pkg door delivery).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ LITERATURE ══════════════════ -->
+<section id="literature" class="py-16 px-6 bg-white fade-section">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold text-slate-900 mb-1">Literature Sources</h2>
+    <p class="text-slate-500 mb-8">10 peer-reviewed papers and government reports · systematic search across ScienceDirect, INFORMS, Urban Freight Lab, USPS OIG.</p>
+
+    <div class="flex gap-4 mb-5 flex-wrap">
+      <div class="flex items-center gap-1.5 text-xs text-slate-600">
+        <div class="flex gap-0.5">
+          <div class="w-3 h-3 rounded-sm bg-green-500"></div><div class="w-3 h-3 rounded-sm bg-green-500"></div>
+          <div class="w-3 h-3 rounded-sm bg-green-500"></div><div class="w-3 h-3 rounded-sm bg-green-500"></div>
+          <div class="w-3 h-3 rounded-sm bg-green-500"></div>
+        </div>Quality 5 — GPS-validated, large n, full distribution
+      </div>
+      <div class="flex items-center gap-1.5 text-xs text-slate-600">
+        <div class="flex gap-0.5">
+          <div class="w-3 h-3 rounded-sm bg-green-400"></div><div class="w-3 h-3 rounded-sm bg-green-400"></div>
+          <div class="w-3 h-3 rounded-sm bg-green-400"></div><div class="w-3 h-3 rounded-sm bg-green-400"></div>
+          <div class="w-3 h-3 rounded-sm bg-slate-200"></div>
+        </div>Quality 4 — Field validated, distribution fitted
+      </div>
+      <div class="flex items-center gap-1.5 text-xs text-slate-600">
+        <div class="flex gap-0.5">
+          <div class="w-3 h-3 rounded-sm bg-yellow-400"></div><div class="w-3 h-3 rounded-sm bg-yellow-400"></div>
+          <div class="w-3 h-3 rounded-sm bg-yellow-400"></div><div class="w-3 h-3 rounded-sm bg-slate-200"></div>
+          <div class="w-3 h-3 rounded-sm bg-slate-200"></div>
+        </div>Quality 3 — Carrier records or limited params
+      </div>
+    </div>
+
+    <div class="overflow-x-auto rounded-2xl shadow border border-slate-200">
+      <table class="data-table w-full">
+        <thead>
+          <tr>
+            <th>Ref</th><th>Authors</th><th>Year</th><th>Country</th>
+            <th>Stop Type</th><th>n Stops</th><th>Mean (s)</th>
+            <th>Key Contribution</th><th>Cells Used</th><th>Quality</th>
+          </tr>
+        </thead>
+        <tbody id="litTableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-5 text-sm text-amber-800">
+      <strong class="block font-semibold mb-1">⚠ No Australian driver-side service time paper identified</strong>
+      The AusPost Queensland study [10] measures <em>customer collection</em> dwell time — not driver stop time.
+      No peer-reviewed AU study measuring per-stop delivery service time was found. Australian calibration
+      is applied via topology-specific adjustment factors derived from urban form comparison.
+      A 30-day GPS trace study of Australian last-mile drivers would ground-truth all six cells.
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+        <div class="text-slate-500 text-xs font-semibold uppercase tracking-wide mb-3">Pooling method</div>
+        <div class="text-sm text-slate-700 leading-relaxed">
+          Inverse-variance weighted pooling within each topology cell.
+          <span class="font-mono text-xs bg-slate-100 px-1 rounded block mt-2">
+            μ_pool = Σ(w_i × μ_i) / Σw_i<br/>w_i = 1 / SE_i²
+          </span>
+        </div>
+      </div>
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+        <div class="text-slate-500 text-xs font-semibold uppercase tracking-wide mb-3">Heterogeneity (I²)</div>
+        <div class="text-sm text-slate-700 leading-relaxed">
+          I² &gt; 88% across all cells with multiple studies. Genuine cross-country heterogeneity,
+          not measurement error. Wide MC uncertainty bounds are the correct modelling response.
+        </div>
+      </div>
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+        <div class="text-slate-500 text-xs font-semibold uppercase tracking-wide mb-3">B2C calibration</div>
+        <div class="text-sm text-slate-700 leading-relaxed">
+          Freight studies adjusted ×0.40 (B2B freight → B2C parcel).
+          Mixed B2B/B2C studies adjusted ×0.50. Pure B2C studies used at face value.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ VALIDATION ══════════════════ -->
+<section id="validation" class="py-16 px-6 bg-slate-50 fade-section">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold text-slate-900 mb-1">Model Validation</h2>
+    <p class="text-slate-500 mb-10">Three cross-checks confirm the model is well-calibrated. ATL adjustment significantly improves the Oslo cross-validation.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+      <!-- Oslo ATL check -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
+            <span class="text-emerald-700 font-bold text-sm">✓</span>
+          </div>
+          <div>
+            <div class="font-semibold text-slate-900">Oslo cross-validation — ATL calibration</div>
+            <div class="text-xs text-slate-500">Kjelle et al. 2023 — unattended (ATL) residential</div>
+          </div>
+        </div>
+        <div class="space-y-2 mb-3">
+          <div class="flex justify-between items-center bg-slate-50 rounded-lg px-4 py-2.5 border border-slate-200">
+            <span class="text-sm text-slate-600">Oslo empirical ATL (n=5,000+)</span>
+            <span class="font-bold text-slate-900">119 s</span>
+          </div>
+          <div class="flex justify-between items-center bg-slate-50 rounded-lg px-4 py-2.5 border border-slate-200">
+            <span class="text-sm text-slate-600">Our model C4 — 100% attended</span>
+            <span class="font-bold text-red-600">158 s (+33%)</span>
+          </div>
+          <div class="flex justify-between items-center bg-amber-50 rounded-lg px-4 py-2.5 border border-amber-200">
+            <span class="text-sm text-amber-800">Our model C4 — 85% ATL</span>
+            <span class="font-bold text-amber-700">132 s (+11%)</span>
+          </div>
+          <div class="flex justify-between items-center bg-emerald-50 rounded-lg px-4 py-2.5 border border-emerald-200">
+            <span class="text-sm text-emerald-800 font-medium">Our model C4 — 100% ATL</span>
+            <span class="font-bold text-emerald-700">127 s (+6.7%) ✓</span>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 leading-relaxed">
+          The attended-only model overshoots Oslo by 33%. Applying ATL calibration (85%) closes the gap
+          to +11%. At full ATL the gap is just +6.7% — within calibration uncertainty. ATL is essential
+          for accurate service time estimation in B2C parcel networks.
+        </p>
+      </div>
+
+      <!-- Winkenbach–Gevaers check -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+            <span class="text-blue-700 font-bold text-sm">✓</span>
+          </div>
+          <div>
+            <div class="font-semibold text-slate-900">Winkenbach–Gevaers walk consistency</div>
+            <div class="text-xs text-slate-500">Internal walk component decomposition</div>
+          </div>
+        </div>
+        <div class="space-y-2 mb-3">
+          <div class="flex justify-between items-center bg-slate-50 rounded-lg px-4 py-2.5 border border-slate-200">
+            <span class="text-sm text-slate-600">Winkenbach attended handoff (Boston)</span>
+            <span class="font-bold text-slate-900">75 s</span>
+          </div>
+          <div class="flex justify-between items-center bg-slate-50 rounded-lg px-4 py-2.5 border border-slate-200">
+            <span class="text-sm text-slate-600">Gevaers total stop (EU suburban B2C)</span>
+            <span class="font-bold text-slate-900">180 s</span>
+          </div>
+          <div class="flex justify-between items-center bg-slate-50 rounded-lg px-4 py-2.5 border border-slate-200">
+            <span class="text-sm text-slate-600">Implied walk + overhead residual</span>
+            <span class="font-bold text-slate-900">105 s</span>
+          </div>
+          <div class="flex justify-between items-center bg-blue-50 rounded-lg px-4 py-2.5 border border-blue-200">
+            <span class="text-sm text-blue-800">Our walk model at ~300 stops/km²</span>
+            <span class="font-bold text-blue-700">77 s ✓</span>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 leading-relaxed">
+          28s gap between our walk model (77s) and the Gevaers residual (105s) is explained by
+          EU suburban density being below 300 stops/km². Direction and magnitude are consistent —
+          walk component is internally coherent across independent studies.
+        </p>
+      </div>
+    </div>
+
+    <!-- Oslo ATL attended split -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 mb-6">
+      <h3 class="font-semibold text-slate-900 mb-1">Oslo empirical ATL vs attended decomposition</h3>
+      <p class="text-slate-500 text-sm mb-5">Kjelle et al. (2023) directly measured both modes at the same residential density (~1,500 stops/km²). This is the primary empirical anchor for ATL calibration.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-slate-50 rounded-xl p-4 text-center">
+          <div class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">Oslo ATL (unattended)</div>
+          <div class="text-3xl font-extrabold text-emerald-600 mb-1">119 s</div>
+          <div class="text-xs text-slate-500">Walk ~41s · Handoff ~78s</div>
+        </div>
+        <div class="bg-slate-50 rounded-xl p-4 text-center">
+          <div class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">Oslo Attended</div>
+          <div class="text-3xl font-extrabold text-red-600 mb-1">240 s</div>
+          <div class="text-xs text-slate-500">Walk ~41s · Handoff ~199s</div>
+        </div>
+        <div class="bg-slate-50 rounded-xl p-4 text-center">
+          <div class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">ATL saving (handoff only)</div>
+          <div class="text-3xl font-extrabold text-blue-600 mb-1">−61%</div>
+          <div class="text-xs text-slate-500">78s vs 199s attended handoff</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Distribution chart -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6">
+      <h3 class="font-semibold text-slate-900 mb-1">Service time distribution shape — all cells (n=1, 85% ATL)</h3>
+      <p class="text-slate-500 text-sm mb-4">Log-normal PDFs. Positive skew is consistent across all studies — a small proportion of stops take 3–5× the mean.</p>
+      <div class="chart-container" style="height:300px">
+        <canvas id="distChart"></canvas>
+      </div>
+      <p class="text-xs text-slate-400 mt-3">
+        MDU and commercial cells show substantially heavier right tails than residential.
+        Log-normal parameters fitted from pooled literature (μ<sub>ln</sub>, σ<sub>ln</sub>) per cell.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ METHODOLOGY APPENDIX ══════════════════ -->
+<section id="methodology" class="py-16 px-6 bg-slate-900 text-white fade-section">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="inline-flex items-center gap-2 bg-blue-500/20 border border-blue-400/30
+                rounded-full px-4 py-1.5 text-blue-300 text-xs font-semibold mb-6 tracking-wide uppercase">
+      Appendix A — Research Methodology
+    </div>
+    <h2 class="text-2xl font-bold text-white mb-2">How This Data Was Created</h2>
+    <p class="text-slate-400 mb-12 max-w-2xl leading-relaxed">
+      A complete account of the search strategy, extraction protocol, meta-analysis procedures,
+      and calibration decisions that produced the service time estimates in this paper.
+    </p>
+
+    <!-- ── A1. Research Design ──────────────────────────────────────── -->
+    <div class="mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-blue-500/30 border border-blue-400/40 rounded-lg flex items-center justify-center text-blue-300 font-bold text-sm flex-shrink-0">A1</div>
+        <h3 class="text-lg font-bold text-white">Research Design</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Study type</div>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Systematic literature review with quantitative meta-analysis. The review follows a
+            modified PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses)
+            protocol, adapted for operational logistics data where controlled experimental
+            conditions are rare. All included studies report empirical service time measurements
+            from live delivery operations — no simulation or theoretical papers were included.
+          </p>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Objective</div>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            To establish literature-grounded probability distributions for per-stop service time
+            across six delivery topology cells relevant to Australian last-mile networks. The
+            primary output is a parameterised three-component model — walk time, handoff time,
+            and per-package increment — that can be used as a Monte Carlo input distribution
+            for route-time and cost modelling.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── A2. Search Strategy ──────────────────────────────────────── -->
+    <div class="mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-blue-500/30 border border-blue-400/40 rounded-lg flex items-center justify-center text-blue-300 font-bold text-sm flex-shrink-0">A2</div>
+        <h3 class="text-lg font-bold text-white">Search Strategy</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Databases searched</div>
+          <ul class="text-slate-300 text-sm space-y-1.5">
+            <li>• ScienceDirect (Elsevier)</li>
+            <li>• INFORMS Journals (Transportation Science, OR)</li>
+            <li>• Urban Freight Lab (University of Washington)</li>
+            <li>• USPS Office of Inspector General</li>
+            <li>• Google Scholar (grey literature)</li>
+            <li>• MIT SCALE Research Reports</li>
+          </ul>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Search terms used</div>
+          <ul class="text-slate-300 text-sm space-y-1.5">
+            <li>• "parcel delivery service time"</li>
+            <li>• "last-mile dwell time empirical"</li>
+            <li>• "courier stop time residential"</li>
+            <li>• "B2C delivery time study"</li>
+            <li>• "urban freight service time measurement"</li>
+            <li>• "last-mile delivery time GPS"</li>
+          </ul>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Date range &amp; filters</div>
+          <ul class="text-slate-300 text-sm space-y-1.5">
+            <li>• Publication years: 2010–2026</li>
+            <li>• Language: English only</li>
+            <li>• Must include empirical measurement</li>
+            <li>• Peer-reviewed preferred; grey literature accepted if government-sourced</li>
+            <li>• Final screen: March 2026</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── A3. Inclusion / Exclusion ────────────────────────────────── -->
+    <div class="mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-blue-500/30 border border-blue-400/40 rounded-lg flex items-center justify-center text-blue-300 font-bold text-sm flex-shrink-0">A3</div>
+        <h3 class="text-lg font-bold text-white">Inclusion &amp; Exclusion Criteria</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="bg-emerald-900/40 border border-emerald-700/50 rounded-2xl p-5">
+          <div class="text-emerald-400 text-xs font-semibold uppercase tracking-wide mb-3">Included ✓</div>
+          <ul class="text-slate-300 text-sm space-y-2 leading-relaxed">
+            <li class="flex gap-2"><span class="text-emerald-400 flex-shrink-0 mt-0.5">✓</span>Studies reporting mean service time per stop from live operations</li>
+            <li class="flex gap-2"><span class="text-emerald-400 flex-shrink-0 mt-0.5">✓</span>GPS trace studies, carrier operational data, field observation studies</li>
+            <li class="flex gap-2"><span class="text-emerald-400 flex-shrink-0 mt-0.5">✓</span>Studies measuring courier/driver time (not customer collection time)</li>
+            <li class="flex gap-2"><span class="text-emerald-400 flex-shrink-0 mt-0.5">✓</span>B2B freight studies where B2C calibration could be defensibly applied</li>
+            <li class="flex gap-2"><span class="text-emerald-400 flex-shrink-0 mt-0.5">✓</span>Studies measuring either attended or unattended (ATL) delivery modes</li>
+          </ul>
+        </div>
+        <div class="bg-red-900/40 border border-red-700/50 rounded-2xl p-5">
+          <div class="text-red-400 text-xs font-semibold uppercase tracking-wide mb-3">Excluded ✗</div>
+          <ul class="text-slate-300 text-sm space-y-2 leading-relaxed">
+            <li class="flex gap-2"><span class="text-red-400 flex-shrink-0 mt-0.5">✗</span>Simulation or modelling studies with no empirical field component</li>
+            <li class="flex gap-2"><span class="text-red-400 flex-shrink-0 mt-0.5">✗</span>Studies measuring customer dwell time or collection time (not driver time)</li>
+            <li class="flex gap-2"><span class="text-red-400 flex-shrink-0 mt-0.5">✗</span>Locker-facilitated deliveries (removed in v2.1 — locker infrastructure changes the stop fundamentally)</li>
+            <li class="flex gap-2"><span class="text-red-400 flex-shrink-0 mt-0.5">✗</span>Studies with n &lt; 30 stops (insufficient for distributional fitting)</li>
+            <li class="flex gap-2"><span class="text-red-400 flex-shrink-0 mt-0.5">✗</span>Express/same-day studies where service time is not representative of standard B2C operations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── A4. Data Extraction ───────────────────────────────────────── -->
+    <div class="mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-blue-500/30 border border-blue-400/40 rounded-lg flex items-center justify-center text-blue-300 font-bold text-sm flex-shrink-0">A4</div>
+        <h3 class="text-lg font-bold text-white">Data Extraction Protocol</h3>
+      </div>
+      <p class="text-slate-400 text-sm mb-5 leading-relaxed max-w-3xl">
+        For each included study, the following fields were extracted into a structured CSV (service_time_extraction_v2.csv):
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-blue-400 text-xs font-semibold uppercase tracking-wide mb-2">Service time definition</div>
+          <p class="text-slate-300 text-sm leading-relaxed">Whether the reported figure covers total stop time, handoff only, walk only, or curb dwell. Studies reporting different definitions were decomposed before pooling.</p>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-blue-400 text-xs font-semibold uppercase tracking-wide mb-2">Central tendency &amp; spread</div>
+          <p class="text-slate-300 text-sm leading-relaxed">Mean, median, standard deviation, and percentiles extracted where available. Where only median was reported, mean was estimated using the log-normal relationship (mean ≈ median × exp(σ²/2)).</p>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-blue-400 text-xs font-semibold uppercase tracking-wide mb-2">Topology classification</div>
+          <p class="text-slate-300 text-sm leading-relaxed">Each study's study geography was mapped to one or more of the six cells based on stop density, stop type description, and urban form descriptors in the paper.</p>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-blue-400 text-xs font-semibold uppercase tracking-wide mb-2">Delivery mode</div>
+          <p class="text-slate-300 text-sm leading-relaxed">Whether measurements reflect attended delivery, unattended/ATL, or a mix. Studies with mixed modes were split by proportion where disclosed, otherwise treated as attended.</p>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-blue-400 text-xs font-semibold uppercase tracking-wide mb-2">B2C applicability flag</div>
+          <p class="text-slate-300 text-sm leading-relaxed">Each study was flagged as: Pure B2C (no adjustment), Mixed B2B/B2C (×0.50), or B2B freight (×0.40). The adjustment was applied to mean and SD before pooling.</p>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-blue-400 text-xs font-semibold uppercase tracking-wide mb-2">Quality score (1–5)</div>
+          <p class="text-slate-300 text-sm leading-relaxed">Scored on: GPS validation (2pts), sample size ≥500 (1pt), full distribution reported (1pt), peer-reviewed (1pt). Scores used to weight credibility discussions but not pooling weights (those use SE).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── A5. Meta-Analysis ─────────────────────────────────────────── -->
+    <div class="mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-blue-500/30 border border-blue-400/40 rounded-lg flex items-center justify-center text-blue-300 font-bold text-sm flex-shrink-0">A5</div>
+        <h3 class="text-lg font-bold text-white">Meta-Analysis Procedure</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Pooling method</div>
+          <p class="text-slate-300 text-sm leading-relaxed mb-3">
+            Within each topology cell, available studies were pooled using inverse-variance weighted (IVW) averaging:
+          </p>
+          <div class="bg-slate-900 rounded-xl p-3 font-mono text-xs text-blue-300 leading-relaxed">
+            μ_pool = Σ(wᵢ × μᵢ) / Σwᵢ<br/>
+            wᵢ = 1 / SEᵢ²<br/>
+            SEᵢ = SDᵢ / √nᵢ
+          </div>
+          <p class="text-slate-400 text-xs mt-3 leading-relaxed">
+            Where SD was not reported, it was imputed at 45% of the mean (the median CV across studies where SD was available).
+          </p>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Heterogeneity (I²)</div>
+          <p class="text-slate-300 text-sm leading-relaxed mb-3">
+            Cochran's Q statistic and I² were computed for each cell with ≥2 studies:
+          </p>
+          <div class="bg-slate-900 rounded-xl p-3 font-mono text-xs text-blue-300 leading-relaxed">
+            Q = Σwᵢ(μᵢ − μ_pool)²<br/>
+            I² = max(0, (Q − (k−1)) / Q × 100)
+          </div>
+          <p class="text-slate-400 text-xs mt-3 leading-relaxed">
+            All cells with multiple studies showed I² &gt; 88%. This was interpreted as genuine
+            cross-country heterogeneity (not error), resulting from differences in urban form,
+            driver culture, and network design. The pooled mean is used as a calibration centre;
+            the full study range informs Monte Carlo bounds.
+          </p>
+        </div>
+      </div>
+      <div class="bg-slate-800 rounded-2xl p-5">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Log-normal parameter derivation</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <p class="text-slate-300 text-sm leading-relaxed mb-2">
+              Once a pooled mean (μ) and pooled SD (σ) were established per cell, log-normal
+              parameters were derived analytically:
+            </p>
+            <div class="bg-slate-900 rounded-xl p-3 font-mono text-xs text-blue-300 leading-relaxed">
+              σ_ln = √[ln(1 + (σ/μ)²)]<br/>
+              μ_ln = ln(μ) − ½σ_ln²
+            </div>
+          </div>
+          <div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              For cells with zero or one study, parameters were set by synthetic prior:
+              a calibrated prior informed by the closest analogous cell in the literature corpus,
+              scaled for the cell's density reference and stop-type classification.
+              Synthetic cells are flagged in all outputs (C1, C5, C6).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── A6. Walk Time Model ───────────────────────────────────────── -->
+    <div class="mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-blue-500/30 border border-blue-400/40 rounded-lg flex items-center justify-center text-blue-300 font-bold text-sm flex-shrink-0">A6</div>
+        <h3 class="text-lg font-bold text-white">Walk Time Model</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Theoretical basis</div>
+          <p class="text-slate-300 text-sm leading-relaxed mb-3">
+            Walk time between the driver's parked vehicle and the stop door was modelled using
+            the Poisson nearest-neighbour distance formula. Under Poisson-distributed stops at
+            density δ, the expected nearest-neighbour distance is:
+          </p>
+          <div class="bg-slate-900 rounded-xl p-3 font-mono text-xs text-blue-300 leading-relaxed">
+            d̄ = 1/(2√δ) metres (theoretical)<br/>
+            d̄_walk = 1.35 × 500/√δ metres (calibrated)<br/>
+            T_walk = 2 × d̄_walk / 1.2 + 12 seconds
+          </div>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Calibration decisions</div>
+          <ul class="text-slate-300 text-sm space-y-2 leading-relaxed">
+            <li class="flex gap-2"><span class="text-blue-400 flex-shrink-0 mt-0.5">▸</span><span>Factor 1.35: empirical correction for non-Manhattan street geometry (diagonal detours, blocked footpaths)</span></li>
+            <li class="flex gap-2"><span class="text-blue-400 flex-shrink-0 mt-0.5">▸</span><span>Walk speed 1.2 m/s: loaded-carrier walking pace (Dalla Chiara 2025)</span></li>
+            <li class="flex gap-2"><span class="text-blue-400 flex-shrink-0 mt-0.5">▸</span><span>Fixed 12s: vehicle exit/entry overhead (door, step down, lock)</span></li>
+            <li class="flex gap-2"><span class="text-blue-400 flex-shrink-0 mt-0.5">▸</span><span>Walk SD = 35% of mean to reflect parking position variability</span></li>
+            <li class="flex gap-2"><span class="text-blue-400 flex-shrink-0 mt-0.5">▸</span><span>Cross-validated against Gevaers (2014): model 77s at ~300/km² vs implied 105s — directionally correct</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── A7. ATL Calibration ───────────────────────────────────────── -->
+    <div class="mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-blue-500/30 border border-blue-400/40 rounded-lg flex items-center justify-center text-blue-300 font-bold text-sm flex-shrink-0">A7</div>
+        <h3 class="text-lg font-bold text-white">ATL Calibration Methodology</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Empirical anchor</div>
+          <p class="text-slate-300 text-sm leading-relaxed mb-3">
+            Kjelle et al. (2023) is the only study in the corpus that directly compares attended
+            and ATL (unattended) service time at the same residential delivery network. Measured
+            at ~1,500 stops/km² (Oslo):
+          </p>
+          <div class="bg-slate-900 rounded-xl p-3 font-mono text-xs text-blue-300 leading-relaxed">
+            ATL total:      119s (walk ~41s + handoff ~78s)<br/>
+            Attended total: 240s (walk ~41s + handoff ~199s)<br/>
+            ATL handoff fraction: 78/199 = 39%
+          </div>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-5">
+          <div class="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Cell-by-cell ATL handoff</div>
+          <ul class="text-slate-300 text-sm space-y-2 leading-relaxed">
+            <li class="flex gap-2"><span class="text-amber-400 flex-shrink-0 mt-0.5">C4:</span><span>75s — Oslo ATL handoff 78s × AU adj 0.95. Best-evidenced ATL estimate.</span></li>
+            <li class="flex gap-2"><span class="text-amber-400 flex-shrink-0 mt-0.5">C1:</span><span>55s — CBD residential analogue; slightly complex access but no building navigation.</span></li>
+            <li class="flex gap-2"><span class="text-amber-400 flex-shrink-0 mt-0.5">C2:</span><span>160s — Building navigation unavoidable. ATL saves door-wait only (~30% reduction).</span></li>
+            <li class="flex gap-2"><span class="text-amber-400 flex-shrink-0 mt-0.5">C3:</span><span>210s — Commercial ATL reduces interaction but retains building/reception navigation.</span></li>
+            <li class="flex gap-2"><span class="text-amber-400 flex-shrink-0 mt-0.5">C5:</span><span>130s — Suburban MDU, simpler building access. ~35% reduction vs attended.</span></li>
+            <li class="flex gap-2"><span class="text-amber-400 flex-shrink-0 mt-0.5">C6:</span><span>45s — Strip retail, quick kerb-side placement. ~36% reduction vs attended.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-amber-900/40 border border-amber-700/50 rounded-2xl p-5">
+        <div class="text-amber-400 text-xs font-semibold uppercase tracking-wide mb-2">Fleet ATL rate assumption</div>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          An 85% fleet ATL rate is applied as the base case for Australian B2C parcel delivery. This reflects
+          typical network-level ATL authorisation rates observed in Australian domestic parcels (where customers
+          pre-authorise safe-drop at account or consignment level). The rate varies by geography:
+          suburban residential carries the highest ATL rate (&gt;90%), CBD apartment and commercial stops
+          carry lower effective rates (~70–75%) due to building access restrictions. The 85% figure represents
+          a network-weighted average. All interactive tools allow this assumption to be varied from 0–100%.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── A8. Australian Calibration ────────────────────────────────── -->
+    <div class="mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-blue-500/30 border border-blue-400/40 rounded-lg flex items-center justify-center text-blue-300 font-bold text-sm flex-shrink-0">A8</div>
+        <h3 class="text-lg font-bold text-white">Australian Calibration Factors</h3>
+      </div>
+      <p class="text-slate-400 text-sm mb-5 max-w-3xl leading-relaxed">
+        No peer-reviewed Australian study of driver-side service time exists. All primary studies are from
+        the United States, Norway, Belgium, and Chile. Australian calibration factors were derived
+        by comparing urban form characteristics, building typologies, and network density between
+        the study locations and their Australian counterparts:
+      </p>
+      <div class="overflow-x-auto rounded-2xl border border-slate-700 mb-5">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-slate-700">
+              <th class="px-4 py-3 text-left text-slate-300 font-semibold">Cell</th>
+              <th class="px-4 py-3 text-right text-slate-300 font-semibold">AU Factor</th>
+              <th class="px-4 py-3 text-left text-slate-300 font-semibold">Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-slate-700"><td class="px-4 py-3 text-white">C1 CBD Residential</td><td class="px-4 py-3 text-right text-amber-300 font-mono">×1.05</td><td class="px-4 py-3 text-slate-400 text-xs">Sydney CBD housing stock older and less standardised than US counterparts; marginal increase</td></tr>
+            <tr class="border-t border-slate-700 bg-slate-800/50"><td class="px-4 py-3 text-white">C2 Urban MDU</td><td class="px-4 py-3 text-right text-amber-300 font-mono">×1.15</td><td class="px-4 py-3 text-slate-400 text-xs">Sydney high-density apartments older building stock, less standardised intercom/access systems than Scandinavian comparators</td></tr>
+            <tr class="border-t border-slate-700"><td class="px-4 py-3 text-white">C3 CBD Commercial</td><td class="px-4 py-3 text-right text-amber-300 font-mono">×1.00</td><td class="px-4 py-3 text-slate-400 text-xs">US commercial context closely analogous; no adjustment applied</td></tr>
+            <tr class="border-t border-slate-700 bg-slate-800/50"><td class="px-4 py-3 text-white">C4 Suburban Residential</td><td class="px-4 py-3 text-right text-emerald-300 font-mono">×0.95</td><td class="px-4 py-3 text-slate-400 text-xs">Australian suburban residential similar to US/EU; slight downward adjustment for higher ATL-friendly property layouts (fences, established letter areas)</td></tr>
+            <tr class="border-t border-slate-700"><td class="px-4 py-3 text-white">C5 Suburban MDU</td><td class="px-4 py-3 text-right text-amber-300 font-mono">×1.10</td><td class="px-4 py-3 text-slate-400 text-xs">Older suburban apartment stock (1960s–1990s walk-up blocks) with less standardised access than newer buildings in comparator studies</td></tr>
+            <tr class="border-t border-slate-700 bg-slate-800/50"><td class="px-4 py-3 text-white">C6 Suburban Commercial</td><td class="px-4 py-3 text-right text-emerald-300 font-mono">×0.95</td><td class="px-4 py-3 text-slate-400 text-xs">Australian strip retail generally has simpler delivery access than US equivalents; slight downward adjustment</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="bg-red-900/40 border border-red-700/50 rounded-xl p-4 text-sm text-red-300">
+        <strong class="text-red-200 block mb-1">Limitation</strong>
+        These calibration factors are expert-judgement estimates, not empirically validated. They represent
+        the highest-uncertainty component of this model. A 30-day GPS trace study of Australian last-mile
+        drivers — covering all six cells — would replace these factors with direct empirical measurements
+        and is the recommended next step for this research programme.
+      </div>
+    </div>
+
+    <!-- ── A9. Topology Assignment ───────────────────────────────────── -->
+    <div class="mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-blue-500/30 border border-blue-400/40 rounded-lg flex items-center justify-center text-blue-300 font-bold text-sm flex-shrink-0">A9</div>
+        <h3 class="text-lg font-bold text-white">Stop-to-Cell Assignment Rules</h3>
+      </div>
+      <p class="text-slate-400 text-sm mb-5 max-w-3xl">
+        Operational stops are assigned to a topology cell using two fields from the stop master record:
+        <span class="text-white font-mono">stop_type</span> and <span class="text-white font-mono">suburb</span>.
+        The assignment logic is:
+      </p>
+      <div class="bg-slate-800 rounded-2xl p-5 mb-5">
+        <div class="font-mono text-xs text-blue-300 leading-relaxed">
+          <div class="text-slate-500 mb-2"># Assignment pseudo-code</div>
+          <div>if suburb in CBD_SUBURBS:</div>
+          <div>&nbsp;&nbsp;if stop_type == "apartment": → C2 (Urban MDU)</div>
+          <div>&nbsp;&nbsp;if stop_type == "business":  → C3 (CBD Commercial)</div>
+          <div>&nbsp;&nbsp;else:                        → C1 (CBD Residential)</div>
+          <div>else:</div>
+          <div>&nbsp;&nbsp;if stop_type == "apartment": → C5 (Suburban MDU)</div>
+          <div>&nbsp;&nbsp;if stop_type == "business":  → C6 (Suburban Commercial)</div>
+          <div>&nbsp;&nbsp;else:                        → C4 (Suburban Residential)</div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-slate-800 rounded-xl p-4 text-sm text-slate-300">
+          <strong class="text-white block mb-2">CBD suburb list</strong>
+          The CBD classification is based on suburb boundaries, not a density calculation at runtime.
+          Suburbs are pre-classified as CBD or Suburban in a reference table. This allows the
+          assignment to run without GIS infrastructure at the point of routing.
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4 text-sm text-slate-300">
+          <strong class="text-white block mb-2">Density is a cell property, not a stop property</strong>
+          Each cell carries a reference density (δ_ref) used to compute walk time. The actual stop density
+          for a given run can be passed as an override to the walk time model — particularly useful
+          for high-density routes where multiple parcels are delivered per block.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── A10. Limitations ──────────────────────────────────────────── -->
+    <div>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-blue-500/30 border border-blue-400/40 rounded-lg flex items-center justify-center text-blue-300 font-bold text-sm flex-shrink-0">A10</div>
+        <h3 class="text-lg font-bold text-white">Limitations &amp; Future Work</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-red-400 text-xs font-semibold uppercase tracking-wide mb-2">No AU empirical data</div>
+          <p class="text-slate-400 text-sm leading-relaxed">The entire model rests on international data with AU calibration factors. The factors are judgement-based. AU field measurement is the highest-priority data gap.</p>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-red-400 text-xs font-semibold uppercase tracking-wide mb-2">High I² across cells</div>
+          <p class="text-slate-400 text-sm leading-relaxed">I² &gt; 88% reflects genuine heterogeneity but means the pooled mean is a weak estimator. The model should be used as a planning centre estimate with wide uncertainty bounds.</p>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-red-400 text-xs font-semibold uppercase tracking-wide mb-2">C1, C5, C6 synthetic</div>
+          <p class="text-slate-400 text-sm leading-relaxed">Three cells have no literature studies — parameters are synthetic priors. These cells represent a significant fraction of suburban volumes and warrant priority field measurement.</p>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-amber-400 text-xs font-semibold uppercase tracking-wide mb-2">ATL rate assumed</div>
+          <p class="text-slate-400 text-sm leading-relaxed">The 85% fleet ATL assumption is unvalidated for the specific network. Carrier operational data (scan-type codes: ATL vs attended) would directly measure this parameter.</p>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-amber-400 text-xs font-semibold uppercase tracking-wide mb-2">Linear increment model</div>
+          <p class="text-slate-400 text-sm leading-relaxed">The β per-package increment is modelled as linear. In practice, marginal time per package likely decreases at high n (economies of handling). This warrants validation at n &gt; 5.</p>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-amber-400 text-xs font-semibold uppercase tracking-wide mb-2">Season / time-of-day effects</div>
+          <p class="text-slate-400 text-sm leading-relaxed">All estimates represent annual averages. Peak season (November–December) likely adds 15–20% to residential attended handoff due to gift packaging and recipient interaction. No seasonal model is currently included.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="bg-slate-900 text-slate-400 py-10 px-6">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-6">
+    <div>
+      <div class="text-white font-semibold mb-2">Parcel Delivery Service Time Research</div>
+      <div class="text-sm">Last-Mile Delivery · Systematic Literature Review · March 2026</div>
+      <div class="text-xs mt-1">v2.1 — Post literature calibration · 10 empirical sources · ATL-calibrated · PRISMA screening</div>
+    </div>
+    <div class="text-xs space-y-1">
+      <div class="text-slate-500 font-semibold uppercase tracking-wide mb-2">Key assumptions</div>
+      <div>Fleet ATL rate: 85% (Australian B2C assumption)</div>
+      <div>Walk: 1.35 × 500/√δ / 1.2 × 2 + 12 (seconds)</div>
+      <div>Handoff: log-normal, ATL-weighted blend</div>
+      <div>Increment β: linear, 8.7–12 s/pkg by stop type</div>
+      <div>Signature premium: +45 s mean, +20 s SD</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════ JAVASCRIPT ══════════════════ -->
+<script>
+// ─── Data ────────────────────────────────────────────────────────────────────
+//   handoff    = attended baseline (full door interaction)
+//   atlHandoff = ATL baseline (scan + place + photo, no wait)
+const CELLS = [
+  { id:"C1", name:"CBD Residential",     st:"Residential SFD", geo:"CBD / Urban Dense",
+    color:"#7c3aed", density:3000, walk:32,
+    handoff:90,  atlHandoff:55,  handoffSd:40,
+    incr:10.0, auAdj:1.05, n_studies:0, source:"synthetic",
+    auSuburbs:"Sydney CBD (houses)", muLn:4.30, sigLn:0.43,
+    atlNote:"ATL in CBD residential: less parking variability but tight footpaths. 55s for safe-drop scan + photo.",
+    note:"Synthetic prior — CBD walk time calibrated against Dalla Chiara (2025). No pure CBD residential study found." },
+
+  { id:"C2", name:"Urban MDU",           st:"MDU / Apartment",  geo:"CBD / Urban Dense",
+    color:"#db2777", density:2500, walk:34,
+    handoff:240, atlHandoff:160, handoffSd:189,
+    incr:8.7,  auAdj:1.15, n_studies:3, source:"literature",
+    auSuburbs:"Darlinghurst, Surry Hills, Waterloo, Sydney CBD", muLn:5.18, sigLn:0.72,
+    atlNote:"ATL in MDU still requires building entry (buzz-in/key), floor navigation, and safe placement at door. 160s reflects unavoidable building access time.",
+    note:"3 attended door-delivery studies pooled (Kjelle attended, Winkenbach MDU, Gevaers). High I² (100%) reflects genuine range of building types." },
+
+  { id:"C3", name:"CBD Commercial",      st:"Commercial",       geo:"CBD / Urban Dense",
+    color:"#ea580c", density:4000, walk:30,
+    handoff:280, atlHandoff:210, handoffSd:130,
+    incr:12.0, auAdj:1.00, n_studies:2, source:"literature_adjusted",
+    auSuburbs:"Sydney CBD, Alexandria", muLn:5.54, sigLn:0.44,
+    atlNote:"Commercial ATL still requires locating safe drop or brief reception confirmation. 210s reflects reduced interaction but retained building navigation.",
+    note:"2 studies: Seattle freight (×0.40 B2C adj.) and NYC mixed B2B/B2C (×0.50 adj.). Highest epistemic uncertainty cell." },
+
+  { id:"C4", name:"Suburban Residential",st:"Residential SFD", geo:"Suburban / Fringe",
+    color:"#16a34a", density:800,  walk:52,
+    handoff:106, atlHandoff:75,  handoffSd:81,
+    incr:10.0, auAdj:0.95, n_studies:5, source:"literature",
+    auSuburbs:"Bondi, Coogee, Maroubra, Rose Bay, Paddington", muLn:4.43, sigLn:0.68,
+    atlNote:"ATL handoff 75s directly anchored to Oslo Kjelle (2023): unattended total 119s at 1,500/km² → handoff 78s, AU-adjusted ×0.95 ≈ 75s. Best empirical calibration.",
+    note:"Best-evidenced cell (5 studies). Largest volume. Oslo ATL cross-validation: 100% ATL model 127s vs Oslo 119s (+6.7%)." },
+
+  { id:"C5", name:"Suburban MDU",        st:"MDU / Apartment",  geo:"Suburban / Fringe",
+    color:"#0891b2", density:1200, walk:44,
+    handoff:200, atlHandoff:130, handoffSd:85,
+    incr:8.7,  auAdj:1.10, n_studies:0, source:"synthetic",
+    auSuburbs:"Kensington, Glebe, Double Bay, inner Surry Hills", muLn:5.19, sigLn:0.41,
+    atlNote:"ATL in suburban MDU: typically 3–8 storey buildings, simpler access than CBD high-rise. 130s reflects building entry + safe floor placement without door interaction.",
+    note:"Synthetic prior scaled from C2 at lower density. High volume cell. Priority for AU field study." },
+
+  { id:"C6", name:"Suburban Commercial", st:"Commercial",       geo:"Suburban / Fringe",
+    color:"#ca8a04", density:1500, walk:41,
+    handoff:70,  atlHandoff:45,  handoffSd:30,
+    incr:12.0, auAdj:0.95, n_studies:0, source:"synthetic",
+    auSuburbs:"Alexandria, Kensington, Glebe strips", muLn:4.12, sigLn:0.41,
+    atlNote:"Strip retail ATL: leave at door or accessible service entry. 45s reflects quick placement + scan. No lobby/security navigation required.",
+    note:"Synthetic prior. Strip retail with kerb-side access. Shorter handoff than CBD commercial. Highest increment (12s) due to commercial scanning requirements." },
+];
+
+let ATL_PCT = 0.85;
+
+function blendHandoff(cell, atl) {
+  return atl * cell.atlHandoff + (1 - atl) * cell.handoff;
+}
+
+function T(cell, n, atl) {
+  const aPct = (atl === undefined) ? ATL_PCT : atl;
+  const h = blendHandoff(cell, aPct);
+  return Math.round(cell.walk + h + Math.max(0, n-1) * cell.incr);
+}
+
+function atlReductionPct(cell, atl) {
+  const attended = cell.walk + cell.handoff;
+  const blended  = cell.walk + blendHandoff(cell, atl);
+  return Math.round((attended - blended) / attended * 100);
+}
+
+// ─── Hero dynamic update ──────────────────────────────────────────────────────
+function updateHero() {
+  const vals = CELLS.map(c => T(c, 1, ATL_PCT));
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  document.getElementById("heroRange").textContent = lo + "–" + hi + "s";
+  const pcts = CELLS.map(c => atlReductionPct(c, ATL_PCT));
+  document.getElementById("heroAtlPct").textContent =
+    "↓" + Math.min(...pcts) + "–" + Math.max(...pcts) + "%";
+}
+
+// ─── Topology cards ───────────────────────────────────────────────────────────
+let selectedCell = null;
+
+function renderCards() {
+  document.getElementById("cellGrid").innerHTML = CELLS.map(c => {
+    const srcBadge = c.source === "literature"
+      ? `<span class="lit-chip">Literature</span>`
+      : c.source === "literature_adjusted"
+      ? `<span class="lit-chip">Lit. (B2C adj.)</span>`
+      : `<span class="syn-chip">Synthetic prior</span>`;
+    const stars = Array(5).fill(0).map((_,j) =>
+      `<div class="w-2.5 h-2.5 rounded-sm ${j < Math.min(c.n_studies+2,5) ? 'bg-green-400' : 'bg-slate-200'}"></div>`
+    ).join("");
+    const atlSave = Math.round(((c.handoff - c.atlHandoff) / c.handoff) * 100);
+    return `
+    <div class="cell-card bg-white rounded-2xl border-2 p-5 shadow" id="card-${c.id}"
+         style="border-color:${c.color}20" onclick="selectCell('${c.id}')">
+      <div class="flex items-start justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
+               style="background:${c.color}">${c.id}</div>
+          <div>
+            <div class="font-semibold text-sm text-slate-900">${c.name}</div>
+            <div class="text-xs text-slate-500">${c.st}</div>
+          </div>
+        </div>
+        ${srcBadge}
+      </div>
+      <div class="grid grid-cols-3 gap-2 mb-3">
+        <div class="text-center bg-slate-50 rounded-lg py-2">
+          <div class="text-lg font-extrabold" style="color:${c.color}">${c.walk}s</div>
+          <div class="text-xs text-slate-500">walk</div>
+        </div>
+        <div class="text-center bg-red-50 rounded-lg py-2">
+          <div class="text-lg font-extrabold text-red-600">${c.handoff}s</div>
+          <div class="text-xs text-red-400">attended</div>
+        </div>
+        <div class="text-center bg-emerald-50 rounded-lg py-2">
+          <div class="text-lg font-extrabold text-emerald-600">${c.atlHandoff}s</div>
+          <div class="text-xs text-emerald-500">ATL (−${atlSave}%)</div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between text-xs text-slate-500">
+        <div class="flex gap-0.5">${stars}</div>
+        <span>${c.n_studies} stud${c.n_studies!==1?'ies':'y'} · δ=${c.density.toLocaleString()}/km²</span>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function selectCell(id) {
+  selectedCell = id === selectedCell ? null : id;
+  CELLS.forEach(c => {
+    const card = document.getElementById(`card-${c.id}`);
+    card.style.borderColor = c.id === selectedCell ? c.color : c.color+"20";
+    card.style.boxShadow   = c.id === selectedCell ? `0 0 0 3px ${c.color}40` : "";
+  });
+  const panel = document.getElementById("cellDetail");
+  if (!selectedCell) { panel.classList.add("hidden"); return; }
+  const c = CELLS.find(x=>x.id===selectedCell);
+  const srcLabel = c.source==="literature" ? "Literature-grounded" :
+                   c.source==="literature_adjusted" ? "Literature (B2C adj.)" : "Synthetic prior";
+  const rows = [1,2,3,5,10].map(n => {
+    const tAtt = Math.round(c.walk + c.handoff + Math.max(0,n-1)*c.incr);
+    const tAtl = Math.round(c.walk + c.atlHandoff + Math.max(0,n-1)*c.incr);
+    const tBlend = T(c, n);
+    return `<tr>
+      <td class="font-semibold">n=${n}</td>
+      <td class="text-right text-red-600">${tAtt}s</td>
+      <td class="text-right text-emerald-600">${tAtl}s</td>
+      <td class="text-right font-bold" style="color:${c.color}">${tBlend}s</td>
+      <td class="text-right text-slate-400 text-xs">−${tAtt-tBlend}s (${Math.round((tAtt-tBlend)/tAtt*100)}%)</td>
+    </tr>`;
+  }).join("");
+  panel.className = "mt-6 rounded-2xl border-2 p-6 bg-white shadow-lg";
+  panel.style.borderColor = c.color;
+  panel.innerHTML = `
+    <div class="flex items-start justify-between mb-5">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-extrabold"
+             style="background:${c.color}">${c.id}</div>
+        <div>
+          <div class="text-xl font-bold text-slate-900">${c.name}</div>
+          <div class="text-slate-500 text-sm">${c.geo} · ${c.st}</div>
+        </div>
+      </div>
+      <button onclick="selectCell('${c.id}')" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+      <div class="bg-slate-50 rounded-xl p-3 text-center">
+        <div class="text-xl font-extrabold" style="color:${c.color}">${c.density.toLocaleString()}</div>
+        <div class="text-xs text-slate-500">stops/km² (ref.)</div>
+      </div>
+      <div class="bg-slate-50 rounded-xl p-3 text-center">
+        <div class="text-xl font-extrabold" style="color:${c.color}">${c.walk}s</div>
+        <div class="text-xs text-slate-500">walk time</div>
+      </div>
+      <div class="bg-red-50 rounded-xl p-3 text-center">
+        <div class="text-xl font-extrabold text-red-600">${c.handoff}s</div>
+        <div class="text-xs text-red-400">attended handoff</div>
+      </div>
+      <div class="bg-emerald-50 rounded-xl p-3 text-center">
+        <div class="text-xl font-extrabold text-emerald-600">${c.atlHandoff}s</div>
+        <div class="text-xs text-emerald-500">ATL handoff</div>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Attended vs ATL vs ${Math.round(ATL_PCT*100)}% blend</div>
+        <table class="w-full text-sm border rounded-xl overflow-hidden">
+          <thead><tr style="background:${c.color}" class="text-white text-xs">
+            <th class="p-2 text-left">n</th>
+            <th class="p-2 text-right">Attended</th>
+            <th class="p-2 text-right">100% ATL</th>
+            <th class="p-2 text-right">${Math.round(ATL_PCT*100)}% ATL</th>
+            <th class="p-2 text-right">Saving</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div>
+        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Parameters</div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between bg-red-50 rounded-lg px-3 py-2">
+            <span class="text-red-600">Attended handoff</span><span class="font-mono font-semibold text-red-700">${c.handoff}s</span>
+          </div>
+          <div class="flex justify-between bg-emerald-50 rounded-lg px-3 py-2">
+            <span class="text-emerald-600">ATL handoff</span><span class="font-mono font-semibold text-emerald-700">${c.atlHandoff}s</span>
+          </div>
+          <div class="flex justify-between bg-slate-50 rounded-lg px-3 py-2">
+            <span class="text-slate-600">Increment β</span><span class="font-mono font-semibold">${c.incr}s/pkg</span>
+          </div>
+          <div class="flex justify-between bg-slate-50 rounded-lg px-3 py-2">
+            <span class="text-slate-600">Log-normal (μ<sub>ln</sub>, σ<sub>ln</sub>)</span><span class="font-mono font-semibold">${c.muLn}, ${c.sigLn}</span>
+          </div>
+          <div class="flex justify-between bg-slate-50 rounded-lg px-3 py-2">
+            <span class="text-slate-600">AU calibration</span><span class="font-mono font-semibold">×${c.auAdj}</span>
+          </div>
+          <div class="flex justify-between bg-slate-50 rounded-lg px-3 py-2">
+            <span class="text-slate-600">Evidence base</span><span class="font-semibold">${srcLabel} (${c.n_studies} studies)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="bg-emerald-50 rounded-xl p-3 text-xs text-emerald-700 leading-relaxed">
+        <strong class="block text-emerald-800 mb-1">ATL note</strong>${c.atlNote}
+      </div>
+      <div class="bg-slate-50 rounded-xl p-3 text-xs text-slate-500 leading-relaxed">
+        <strong class="text-slate-700">General note: </strong>${c.note}
+      </div>
+    </div>`;
+  panel.classList.remove("hidden");
+  panel.scrollIntoView({ behavior:"smooth", block:"nearest" });
+}
+
+// ─── Sliding scale chart ──────────────────────────────────────────────────────
+let slidingChart;
+let activeCells = new Set(CELLS.map(c=>c.id));
+
+function renderToggles() {
+  document.getElementById("cellToggles").innerHTML = CELLS.map(c => `
+    <button onclick="toggleCell('${c.id}')" id="tog-${c.id}"
+            class="px-3 py-1.5 rounded-lg text-sm font-medium border-2 transition-all"
+            style="border-color:${c.color}; background:${c.color}; color:white">
+      ${c.id}
+    </button>`).join("");
+}
+
+function toggleCell(id) {
+  if (activeCells.has(id)) activeCells.delete(id); else activeCells.add(id);
+  const btn = document.getElementById(`tog-${id}`);
+  const c   = CELLS.find(x=>x.id===id);
+  btn.style.background = activeCells.has(id) ? c.color : "transparent";
+  btn.style.color      = activeCells.has(id) ? "white"  : c.color;
+  updateSlidingChart();
+}
+
+function buildDatasets() {
+  return CELLS.filter(c => activeCells.has(c.id)).map(c => ({
+    label: c.name,
+    data: [1,2,3,4,5,6,7,8,9,10].map(n => T(c,n)),
+    borderColor: c.color, backgroundColor: c.color+"18",
+    borderWidth:2.5, pointRadius:3, pointBackgroundColor:c.color,
+    fill:false, tension:.35,
+  }));
+}
+
+function initSlidingChart() {
+  const ctx = document.getElementById("slidingChart").getContext("2d");
+  slidingChart = new Chart(ctx, {
+    type:"line",
+    data:{ labels:["n=1","n=2","n=3","n=4","n=5","n=6","n=7","n=8","n=9","n=10"],
+           datasets:buildDatasets() },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:"index", intersect:false },
+      plugins:{
+        legend:{ position:"bottom", labels:{font:{size:10,family:"Inter"},boxWidth:20,padding:12} },
+        tooltip:{ callbacks:{ label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y}s` }, bodyFont:{size:11} },
+      },
+      scales:{
+        x:{ grid:{color:"#f1f5f9"}, ticks:{font:{size:11}} },
+        y:{ grid:{color:"#f1f5f9"}, ticks:{font:{size:11},callback:v=>v+"s"},
+            title:{display:true, text:"Mean service time (seconds)", font:{size:11}} },
+      },
+    },
+  });
+}
+
+function updateSlidingChart() {
+  slidingChart.data.datasets = buildDatasets();
+  slidingChart.update();
+}
+
+function updateAll() {
+  const n   = parseInt(document.getElementById("nSlider").value);
+  const atp = parseInt(document.getElementById("atlSlider").value);
+  ATL_PCT   = atp / 100;
+  document.getElementById("nLabel").textContent   = n;
+  document.getElementById("atlLabel").textContent = atp + "%";
+  updateSlidingChart();
+  updateReadout(n);
+  updateHero();
+  renderFullTable();
+}
+
+function updateReadout(n) {
+  n = n || parseInt(document.getElementById("nSlider").value);
+  document.getElementById("readout").innerHTML = CELLS.map(c => {
+    const tBlend = T(c, n);
+    const tAtt   = Math.round(c.walk + c.handoff + Math.max(0,n-1)*c.incr);
+    const saving = tAtt - tBlend;
+    return `
+    <div class="bg-slate-800 rounded-xl p-3">
+      <div class="flex items-center gap-2 mb-2">
+        <div class="w-6 h-6 rounded flex items-center justify-center text-white text-xs font-bold"
+             style="background:${c.color}">${c.id}</div>
+        <span class="text-white text-xs font-medium">${c.name}</span>
+      </div>
+      <div class="text-center mb-1">
+        <div class="text-2xl font-extrabold" style="color:${c.color}">${tBlend}s</div>
+        <div class="text-slate-400 text-xs">ATL ${Math.round(ATL_PCT*100)}% blend</div>
+      </div>
+      <div class="grid grid-cols-2 gap-1 mt-2">
+        <div class="bg-slate-900 rounded p-1.5 text-center">
+          <div class="text-red-400 font-bold text-sm">${tAtt}s</div>
+          <div class="text-slate-500 text-xs">attended</div>
+        </div>
+        <div class="bg-slate-900 rounded p-1.5 text-center">
+          <div class="text-emerald-400 font-bold text-sm">−${saving}s</div>
+          <div class="text-slate-500 text-xs">ATL saving</div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+// ─── ATL breakdown table ──────────────────────────────────────────────────────
+function renderAtlBreakdown() {
+  const atlSources = {
+    C1:"Synthetic (CBD residential analogue)",
+    C2:"Attended studies: Kjelle, Winkenbach MDU",
+    C3:"Lit. B2C adj. (×0.40–0.50)",
+    C4:"Kjelle et al. 2023 — Oslo ATL empirical (75s AU-adj.)",
+    C5:"Synthetic (suburban MDU analogue from C2)",
+    C6:"Synthetic (suburban commercial analogue)",
+  };
+  document.getElementById("atlBreakdownBody").innerHTML = CELLS.map(c => {
+    const atlSave = Math.round((c.handoff - c.atlHandoff) / c.handoff * 100);
+    const tAtt = c.walk + c.handoff, tAtl = c.walk + c.atlHandoff;
+    return `<tr>
+      <td><span class="inline-block w-3 h-3 rounded-sm mr-1" style="background:${c.color}"></span><strong>${c.id}</strong> ${c.name}</td>
+      <td class="text-right">${c.walk}s</td>
+      <td class="text-right text-red-700 font-medium">${c.handoff}s</td>
+      <td class="text-right text-emerald-700 font-medium">${c.atlHandoff}s</td>
+      <td class="text-right text-blue-700 font-bold">−${atlSave}%</td>
+      <td class="text-right text-slate-500">${tAtt}s</td>
+      <td class="text-right font-semibold text-emerald-700">${tAtl}s</td>
+      <td class="text-xs text-slate-500">${atlSources[c.id]}</td>
+    </tr>`;
+  }).join("");
+}
+
+// ─── ATL sensitivity chart ────────────────────────────────────────────────────
+function initAtlChart() {
+  const ctx = document.getElementById("atlChart").getContext("2d");
+  const atlRates = Array.from({length:21},(_,i)=>i*5); // 0,5,...,100
+  const datasets = CELLS.map(c => ({
+    label: c.name,
+    data: atlRates.map(a => T(c, 1, a/100)),
+    borderColor: c.color, backgroundColor:"transparent",
+    borderWidth:2.5, pointRadius:0, tension:.3,
+  }));
+  // 85% reference line
+  datasets.push({
+    label:"85% fleet assumption",
+    data: atlRates.map(()=>null),
+    borderColor:"#64748b", borderDash:[5,3], borderWidth:1.5,
+    pointRadius:0, backgroundColor:"transparent",
+  });
+  new Chart(ctx, {
+    type:"line",
+    data:{ labels: atlRates.map(a=>a+"%"), datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:"index", intersect:false },
+      plugins:{
+        legend:{ position:"bottom", labels:{font:{size:10,family:"Inter"},boxWidth:16,padding:8} },
+        tooltip:{ callbacks:{ label:c=>c.dataset.data[c.dataIndex]!==null?`${c.dataset.label}: ${c.parsed.y}s`:null }, bodyFont:{size:11} },
+        annotation:{},
+      },
+      scales:{
+        x:{ grid:{color:"#f1f5f9"}, ticks:{font:{size:10},maxTicksLimit:11} },
+        y:{ grid:{color:"#f1f5f9"}, ticks:{font:{size:10},callback:v=>v+"s"},
+            title:{display:true,text:"Service time n=1 (seconds)",font:{size:11}} },
+      },
+    },
+  });
+}
+
+// ─── Full table ───────────────────────────────────────────────────────────────
+function renderFullTable() {
+  const atp = parseInt(document.getElementById("tableAtlSlider").value) / 100;
+  document.getElementById("fullTableBody").innerHTML = CELLS.map(c => {
+    const h = Math.round(blendHandoff(c, atp));
+    return `<tr>
+      <td><span class="inline-block w-3 h-3 rounded-sm mr-1" style="background:${c.color}"></span><strong>${c.id}</strong></td>
+      <td>${c.name}</td>
+      ${[1,2,3,5,10].map(n=>`<td class="text-right font-medium" style="color:${c.color}">${Math.round(c.walk + blendHandoff(c,atp) + Math.max(0,n-1)*c.incr)}</td>`).join("")}
+      <td class="text-right text-slate-500">${c.walk}s</td>
+      <td class="text-right text-slate-500">${h}s</td>
+      <td class="text-right text-slate-500">${c.incr}s</td>
+    </tr>`;
+  }).join("");
+}
+
+// ─── Literature table ─────────────────────────────────────────────────────────
+const LIT = [
+  { ref:1,  authors:"Winkenbach et al.",     year:2021, country:"USA 🇺🇸", st:"Residential",         n:"3,200+", mean:"75*",       contrib:"Lognormal (μ=3.9 σ=0.82); log-coeff derivation → β≈10s/pkg for door delivery. Attended handoff anchor.", cells:"C4",       q:5 },
+  { ref:2,  authors:"Dalla Chiara et al.",   year:2025, country:"USA 🇺🇸", st:"Mixed CBD",           n:"1,800",  mean:"—",         contrib:"60–80% driver time outside vehicle; walking dominates CBD dwell time.", cells:"C1",       q:4 },
+  { ref:3,  authors:"Dalla Chiara et al.",   year:2021, country:"USA 🇺🇸", st:"Commercial (freight)",n:"157",    mean:"984†",      contrib:"Curb dwell at freight buildings. B2C adj ×0.40 → ~394s commercial parcel handoff.", cells:"C3",       q:4 },
+  { ref:4,  authors:"Dalla Chiara & Cheah",  year:2017, country:"SGP 🇸🇬", st:"Commercial CBD",      n:"620",    mean:"—",         contrib:"Dense Asian urban — comparable urban form to Sydney CBD commercial zones.", cells:"C3",       q:4 },
+  { ref:5,  authors:"Kjelle et al.",         year:2023, country:"NOR 🇳🇴", st:"Residential",         n:"5,000+", mean:"119 / 240", contrib:"ATL (unattended) 119s; Attended 240s. Primary ATL calibration anchor. Handoff: ATL=78s, Attended=199s.", cells:"C4",       q:4 },
+  { ref:6,  authors:"Mora et al.",           year:2024, country:"CHL 🇨🇱", st:"Residential",         n:"2,900",  mean:"348 (med 138)", contrib:"Mean/median ratio 2.5× confirms log-normal right skew in residential B2C.", cells:"C4",       q:3 },
+  { ref:7,  authors:"Gevaers et al.",        year:2014, country:"BEL 🇧🇪", st:"Suburban residential",n:"—",      mean:"180",       contrib:"EU suburban B2C baseline; decomposition implies walk ~105s at ~300/km². Attended comparator.", cells:"C4",       q:3 },
+  { ref:8,  authors:"Schmid et al.",         year:2022, country:"USA 🇺🇸", st:"Commercial CBD",      n:"890",    mean:"540†",      contrib:"NYC mixed B2B/B2C. B2C adj ×0.50 → ~270s commercial parcel baseline.", cells:"C3",       q:3 },
+  { ref:9,  authors:"USPS OIG",              year:2020, country:"USA 🇺🇸", st:"Rural residential",   n:"—",      mean:"90",        contrib:"Rural at-door: 10–20% shorter than suburban. Total route cost 3× higher due to travel time.", cells:"—",        q:3 },
+  { ref:10, authors:"Jara-Diaz et al.",      year:2023, country:"AUS 🇦🇺", st:"Customer collection", n:"51",     mean:"932‡",      contrib:"AusPost QLD — CUSTOMER collection time at depot, not driver stop time. Not comparable.", cells:"ref only", q:3 },
+];
+
+function renderLitTable() {
+  const stars = q => Array(5).fill(0).map((_,j) =>
+    `<div class="w-2.5 h-2.5 rounded-sm inline-block mx-0.5 ${j<q?"bg-green-400":"bg-slate-200"}"></div>`
+  ).join("");
+  document.getElementById("litTableBody").innerHTML = LIT.map(r => `
+    <tr>
+      <td class="text-blue-600 font-bold">[${r.ref}]</td>
+      <td class="font-medium">${r.authors}</td>
+      <td>${r.year}</td>
+      <td>${r.country}</td>
+      <td>${r.st}</td>
+      <td class="text-right font-mono">${r.n}</td>
+      <td class="text-right font-mono font-medium">${r.mean}</td>
+      <td class="text-slate-600 max-w-xs leading-relaxed">${r.contrib}</td>
+      <td><span class="text-xs font-semibold text-blue-700">${r.cells}</span></td>
+      <td><div class="flex gap-0.5">${stars(r.q)}</div></td>
+    </tr>`).join("");
+}
+
+// ─── Distribution chart ───────────────────────────────────────────────────────
+function initDistChart() {
+  const ctx  = document.getElementById("distChart").getContext("2d");
+  const bins = Array.from({length:60},(_,i)=>i*10+10);
+  function lnPDF(x, mu, sigma) {
+    if (x<=0) return 0;
+    return (1/(x*sigma*Math.sqrt(2*Math.PI))) * Math.exp(-0.5*((Math.log(x)-mu)/sigma)**2);
+  }
+  new Chart(ctx, {
+    type:"line",
+    data:{ labels:bins.map(b=>b+"s"), datasets: CELLS.map(c => {
+      const mu    = c.walk + blendHandoff(c, 0.85);
+      const sigma = Math.sqrt(c.handoffSd**2 + (c.walk*0.35)**2);
+      const sln   = Math.sqrt(Math.log(1+(sigma/mu)**2));
+      const mln   = Math.log(mu) - 0.5*sln**2;
+      return { label:c.name, data:bins.map(x=>lnPDF(x,mln,sln)*1000),
+               borderColor:c.color, backgroundColor:c.color+"25",
+               borderWidth:2, fill:true, tension:0.4, pointRadius:0 };
+    })},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{position:"bottom",labels:{font:{size:10,family:"Inter"},boxWidth:16,padding:10}},
+        tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(3)}`}},
+      },
+      scales:{
+        x:{grid:{color:"#f1f5f9"},ticks:{font:{size:9},maxTicksLimit:15,callback:(v,i)=>bins[i]%50===0?bins[i]+"s":""}},
+        y:{grid:{color:"#f1f5f9"},ticks:{font:{size:10}},title:{display:true,text:"Probability density (×10⁻³)",font:{size:11}}},
+      },
+    },
+  });
+}
+
+// ─── Scroll fade + nav highlight ─────────────────────────────────────────────
+function initIntersection() {
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add("visible"); }),
+    { threshold:0.08 }
+  );
+  document.querySelectorAll(".fade-section").forEach(el => obs.observe(el));
+}
+
+function initNavHighlight() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (!link) return;
+      link.classList.toggle("active", e.isIntersecting);
+    });
+  }, { threshold:0.35 });
+  ["topology","sliding","atl","model","literature","validation","methodology"].forEach(id => {
+    const el = document.getElementById(id); if(el) obs.observe(el);
+  });
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  renderCards();
+  renderToggles();
+  renderLitTable();
+  renderFullTable();
+  renderAtlBreakdown();
+  initSlidingChart();
+  updateReadout(1);
+  initAtlChart();
+  initDistChart();
+  updateHero();
+  initIntersection();
+  initNavHighlight();
+});
+</script>
+</body>
+</html>

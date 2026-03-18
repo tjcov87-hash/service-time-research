@@ -1,0 +1,3 @@
+scenario,mean_min,std_min,p05_min,p50_min,p95_min,annual_mean_$,annual_p05_$,annual_p50_$,annual_p95_$,prob_positive_%,lease_cost_yr_$
+zone_sort,114.6,23.7,73.5,115.8,151.4,2371882,1521657,2397713,3133482,100.0,0
+high_cap_van,69.7,22.7,30.5,70.8,104.9,1246960,436898,1270390,1975164,100.0,195000

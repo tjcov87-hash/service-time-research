@@ -1,0 +1,7 @@
+cell_id,cell_name,stop_type,n_stops_sample,mean_density,mean_n_packages,mean_unsorted_sec,mean_sorted_sec,saving_per_stop_sec,saving_per_stop_pct,annual_saving_hrs,annual_saving_usd
+C1,CBD Residential,Residential SFD,144,3000.0,2.7,129.6,119.4,10.2,7.9,103.5,4470.0
+C2,Urban MDU,MDU / Apartment,516,2500.0,2.63,265.4,236.9,28.5,10.7,1034.6,44696.0
+C3,CBD Commercial,Commercial,840,4000.0,2.92,325.0,285.3,39.7,12.2,2344.8,101295.0
+C4,Suburban Residential,Residential SFD,5538,800.0,1.7,171.9,149.6,22.3,13.0,8665.8,374361.0
+C5,Suburban MDU,MDU / Apartment,4777,1200.0,1.75,255.2,229.5,25.7,10.1,8622.2,372479.0
+C6,Suburban Commercial,Commercial,1965,1500.0,1.81,113.7,107.7,6.0,5.3,825.3,35653.0

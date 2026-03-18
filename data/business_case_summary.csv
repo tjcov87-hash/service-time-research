@@ -1,0 +1,2 @@
+scenario,mean_saving_min,std_saving_min,p05_saving_min,p25_saving_min,p50_saving_min,p75_saving_min,p95_saving_min,annual_mean_$,annual_p05_$,annual_p50_$,annual_p95_$,prob_saving_positive,n_sims
+Base case,24.68,11.02,6.76,17.36,24.53,32.04,43.04,510786,139905,507712,890845,98.7,10000

@@ -1,0 +1,10 @@
+stop_type,service_class,weight,median_unsorted_s,median_sorted_s,saving_per_stop_s,saving_pct
+apartment,ATL,0.2302,80.6,71.5,9.1,11.3
+apartment,CARD,0.0577,113.8,100.9,12.9,11.3
+apartment,SIG,0.0961,98.3,87.1,11.2,11.4
+business,ATL,0.122,65.9,58.5,7.4,11.2
+business,CARD,0.0301,57.0,50.6,6.4,11.2
+business,SIG,0.0514,85.1,75.5,9.6,11.3
+residential,ATL,0.2483,59.8,53.1,6.7,11.2
+residential,CARD,0.0618,88.8,78.7,10.1,11.4
+residential,SIG,0.1022,76.7,68.0,8.7,11.3

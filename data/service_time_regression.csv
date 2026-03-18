@@ -1,0 +1,8 @@
+variable,coefficient,exp_coefficient,pct_effect,ci_lower,ci_upper,p_value,significant_05
+Intercept,3.94821,51.84254,5084.25,3.9404,3.95602,0.0,True
+"C(stop_type, Treatment('residential'))[T.apartment]",0.278,1.32049,32.05,0.26857,0.28743,0.0,True
+"C(stop_type, Treatment('residential'))[T.business]",0.01629,1.01642,1.64,0.00497,0.02761,0.004786,True
+"C(service_class, Treatment('ATL'))[T.CARD]",0.26337,1.3013,30.13,0.25126,0.27547,0.0,True
+"C(service_class, Treatment('ATL'))[T.SIG]",0.22543,1.25286,25.29,0.21539,0.23547,0.0,True
+log_n_packages,0.70199,2.01776,101.78,0.69125,0.71273,0.0,True
+sequence_norm,0.0,1.0,0.0,0.0,0.0,,False

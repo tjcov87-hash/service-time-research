@@ -1,0 +1,7 @@
+cell_id,cell_name,stop_type,geography,n_papers,total_sample_stops,pooled_mean_sec,pooled_sd_sec,ci_low_mean_sec,ci_high_mean_sec,i_squared_pct,heterogeneity,dist_family,lognorm_mu,lognorm_sigma,contributing_papers,data_source,au_adjustment,final_mean_sec,final_sd_sec,pooled_p10_sec,pooled_p90_sec,au_mean_sec
+C1,CBD Residential,Residential SFD,CBD / Urban Dense,1,1800,110.0,38.0,,,,n/a - insufficient studies,lognormal,,,P002,synthetic_fallback,1.05,110.0,38.0,,,
+C2,Urban MDU,MDU / Apartment,CBD / Urban Dense,3,640,250.3,180.6,241.2,259.5,99.3,high,lognormal,5.3132,0.6475,P010; P010; P007,literature,1.1,275.3,198.7,88.5,465.4,275.3
+C3,CBD Commercial,Commercial,CBD / Urban Dense,2,1047,305.8,314.6,287.0,324.6,88.1,high,lognormal,5.362,0.8497,P001; P014,literature,1.0,305.8,314.6,71.7,633.3,305.8
+C4,Suburban Residential,Residential SFD,Suburban / Fringe,3,6600,88.4,101.5,87.2,89.7,100.0,high,lognormal,4.0619,0.9166,P_santiago; P004; P007,literature,0.95,84.0,96.4,17.9,188.0,84.0
+C5,Suburban MDU,MDU / Apartment,Suburban / Fringe,0,0,200.0,78.0,,,,n/a - insufficient studies,lognormal,,,,synthetic_fallback,1.05,200.0,78.0,,,
+C6,Suburban Commercial,Commercial,Suburban / Fringe,0,0,95.0,38.0,,,,n/a - insufficient studies,lognormal,,,,synthetic_fallback,0.95,95.0,38.0,,,

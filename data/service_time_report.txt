@@ -1,0 +1,150 @@
+SERVICE TIME DISTRIBUTION MODEL — BOTANY DC
+Phase 2 Statistical Report
+=================================================================
+=================================================================
+DESCRIPTIVE STATISTICS — SERVICE TIME (seconds)
+=================================================================
+
+Overall (n=205,047):
+  Mean:    85.7s
+  Median:  73.4s
+  Std:     48.6s
+  P10:     41.0s
+  P90:     144.7s
+  Skewness: 2.173 (expected >0 for log-normal)
+  Kurtosis: 8.091
+
+By stop type:
+  residential    n= 84,559  mean=75.7s  median=65.7s  std=40.5s
+  apartment      n= 78,752  mean=101.4s  median=87.3s  std=56.7s
+  business       n= 41,736  mean=76.4s  median=67.2s  std=38.3s
+
+By service class:
+  ATL    n=123,134  mean=77.1s  median=66.2s  std=42.4s
+  SIG    n= 51,220  mean=96.0s  median=83.4s  std=49.9s
+  CARD   n= 30,693  mean=103.1s  median=88.2s  std=60.2s
+
+By packages at stop:
+  1 pkg(s)  n=143,219  mean=69.5s  median=63.1s
+  2 pkg(s)  n= 47,472  mean=111.0s  median=101.3s
+  3 pkg(s)  n= 10,192  mean=152.3s  median=138.5s
+
+=================================================================
+DISTRIBUTION FITTING BY SEGMENT
+=================================================================
+
+  residential × ATL  (n=50,916)
+    Best fit:  LOGNORMAL  (lowest AIC)
+    Log-Normal: mu=4.091, sigma=0.444  → median=59.8s, mean=66.0s
+    KS test: stat=0.0279, p=0.0000  (FAIL — check fit)
+    AIC: LogNorm=478372, Gamma=482535, Weibull=491681
+    Sorted state: mu=3.971, sigma=0.394  → median=53.1s
+    >> Service time saving: ~6.7s/stop (11.2% reduction)
+
+  residential × SIG  (n=20,963)
+    Best fit:  LOGNORMAL  (lowest AIC)
+    Log-Normal: mu=4.340, sigma=0.426  → median=76.7s, mean=84.0s
+    KS test: stat=0.0334, p=0.0000  (FAIL — check fit)
+    AIC: LogNorm=205727, Gamma=207500, Weibull=211504
+    Sorted state: mu=4.220, sigma=0.377  → median=68.0s
+    >> Service time saving: ~8.7s/stop (11.3% reduction)
+
+  residential × CARD  (n=12,680)
+    Best fit:  LOGNORMAL  (lowest AIC)
+    Log-Normal: mu=4.486, sigma=0.460  → median=88.8s, mean=98.7s
+    KS test: stat=0.0261, p=0.0000  (FAIL — check fit)
+    AIC: LogNorm=130044, Gamma=131031, Weibull=133129
+    Sorted state: mu=4.366, sigma=0.410  → median=78.7s
+    >> Service time saving: ~10.1s/stop (11.4% reduction)
+
+  apartment × ATL  (n=47,209)
+    Best fit:  LOGNORMAL  (lowest AIC)
+    Log-Normal: mu=4.390, sigma=0.486  → median=80.6s, mean=90.7s
+    KS test: stat=0.0210, p=0.0000  (FAIL — check fit)
+    AIC: LogNorm=480265, Gamma=483981, Weibull=491378
+    Sorted state: mu=4.270, sigma=0.436  → median=71.5s
+    >> Service time saving: ~9.1s/stop (11.3% reduction)
+
+  apartment × SIG  (n=19,708)
+    Best fit:  LOGNORMAL  (lowest AIC)
+    Log-Normal: mu=4.588, sigma=0.465  → median=98.3s, mean=109.5s
+    KS test: stat=0.0255, p=0.0000  (FAIL — check fit)
+    AIC: LogNorm=206561, Gamma=208149, Weibull=211407
+    Sorted state: mu=4.468, sigma=0.415  → median=87.1s
+    >> Service time saving: ~11.2s/stop (11.4% reduction)
+
+  apartment × CARD  (n=11,835)
+    Best fit:  LOGNORMAL  (lowest AIC)
+    Log-Normal: mu=4.734, sigma=0.478  → median=113.8s, mean=127.5s
+    KS test: stat=0.0224, p=0.0000  (FAIL — check fit)
+    AIC: LogNorm=128166, Gamma=129001, Weibull=130762
+    Sorted state: mu=4.614, sigma=0.428  → median=100.9s
+    >> Service time saving: ~12.9s/stop (11.3% reduction)
+
+  business × ATL  (n=25,009)
+    Best fit:  LOGNORMAL  (lowest AIC)
+    Log-Normal: mu=4.189, sigma=0.429  → median=65.9s, mean=72.3s
+    KS test: stat=0.0306, p=0.0000  (FAIL — check fit)
+    AIC: LogNorm=238122, Gamma=240105, Weibull=244657
+    Sorted state: mu=4.069, sigma=0.379  → median=58.5s
+    >> Service time saving: ~7.4s/stop (11.2% reduction)
+
+  business × SIG  (n=10,549)
+    Best fit:  LOGNORMAL  (lowest AIC)
+    Log-Normal: mu=4.444, sigma=0.412  → median=85.1s, mean=92.6s
+    KS test: stat=0.0361, p=0.0000  (FAIL — check fit)
+    AIC: LogNorm=104980, Gamma=105869, Weibull=107918
+    Sorted state: mu=4.324, sigma=0.362  → median=75.5s
+    >> Service time saving: ~9.6s/stop (11.3% reduction)
+
+  business × CARD  (n=6,178)
+    Best fit:  LOGNORMAL  (lowest AIC)
+    Log-Normal: mu=4.044, sigma=0.449  → median=57.0s, mean=63.1s
+    KS test: stat=0.0332, p=0.0000  (FAIL — check fit)
+    AIC: LogNorm=57614, Gamma=58086, Weibull=59102
+    Sorted state: mu=3.924, sigma=0.399  → median=50.6s
+    >> Service time saving: ~6.4s/stop (11.2% reduction)
+
+=================================================================
+LOG-LINEAR REGRESSION: COVARIATE EFFECTS ON SERVICE TIME
+=================================================================
+
+  Sample size:  30,000
+  R²:           0.4389
+  Adj R²:       0.4388
+  F-statistic:  4693.1  (p=0.00e+00)
+
+  Coefficients (log scale — exp(coef) = % change):
+  Variable                                          Coef  exp(Coef)    p-value
+  ---------------------------------------------------------------------------
+  Intercept                                       3.9482    51.8425     0.0000 ***
+  C(stop_type, Treatment('residential'))[T.apartment]   0.2780     1.3205     0.0000 ***
+  C(stop_type, Treatment('residential'))[T.business]   0.0163     1.0164     0.0048 **
+  C(service_class, Treatment('ATL'))[T.CARD]      0.2634     1.3013     0.0000 ***
+  C(service_class, Treatment('ATL'))[T.SIG]       0.2254     1.2529     0.0000 ***
+  log_n_packages                                  0.7020     2.0178     0.0000 ***
+  sequence_norm                                   0.0000     1.0000        nan 
+
+  Interpretation of key variables:
+    Apartment vs residential:  +32.0% service time (intercom/lift effect)
+    Business vs residential:   +1.6% service time (reception effect)
+    Signature vs ATL:          +25.3% service time (wait for signature)
+    Card-left vs ATL:          +30.1% service time (no-answer scenario)
+    Each 1% more packages:     +70.20% service time (elasticity = 0.702)
+    Route progression:         service time decreases by 0.0% from start to end of route (fatigue/efficiency effect)
+
+=================================================================
+SERVICE TIME SAVING FROM ZONE PRE-SORT
+=================================================================
+
+  Weighted avg saving per stop:  8.7s  (11.3% reduction in service time)
+  Avg stops/driver/day:          94
+  Service time saving/driver/day: 814s  = 13.6 minutes
+  Fleet saving/day (147 drivers): 33.2 driver-hours
+
+  Annual saving (service time only, 264 days, $32/hr):
+    Driver-hours saved/year:  8,773
+    Dollar value:             $280,727
+
+  NOTE: This is service-time saving only.
+  Route travel time saving (Phase 3 TSP) adds further benefit.

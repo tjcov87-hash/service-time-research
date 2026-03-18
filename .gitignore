@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.env
+venv/
+
+# Generated chart images (reproducible from scripts)
+*.png
+
+# Large generated outputs (reproducible from scripts)
+data/monte_carlo_results.csv
+data/sensitivity_results*.csv
+data/service_time_log.csv
+data/route_history.csv
+data/travel_time_sample.csv
+
+# OS
+.DS_Store
+Thumbs.db

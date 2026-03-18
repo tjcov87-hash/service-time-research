@@ -1,0 +1,12 @@
+density_stops_km2,mean_nn_distance_m,walk_time_sec,walk_time_sd_sec,context
+50,95.5,171.1,59.9,Rural fringe
+100,67.5,124.5,43.6,Outer suburban
+200,47.7,91.5,32.0,Outer suburban
+300,39.0,77.0,27.0,Suburban
+500,30.2,62.3,21.8,Suburban
+800,23.9,51.8,18.1,Inner suburban
+1000,21.3,47.6,16.7,Inner suburban
+1500,17.4,41.0,14.4,Urban dense
+2000,15.1,37.2,13.0,Urban dense
+3000,12.3,32.5,11.4,CBD
+4000,10.7,29.8,10.4,CBD
