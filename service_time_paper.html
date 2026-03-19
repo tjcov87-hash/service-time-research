@@ -648,12 +648,18 @@ T<sub>handoff</sub> ~ LogNormal(μ<sub>ln</sub>, σ<sub>ln</sub>)<br/>
         <thead>
           <tr>
             <th>Ref</th><th>Authors</th><th>Year</th><th>Country</th>
-            <th>Stop Type</th><th>n Stops</th><th>Mean (s)</th>
-            <th>Key Contribution</th><th>Cells Used</th><th>Quality</th>
+            <th>Title</th><th>Journal / Source</th>
+            <th>Stop Type</th><th>n</th><th>Mean (s)</th>
+            <th>Key Contribution</th><th>Cells</th><th>Quality</th><th>Link</th>
           </tr>
         </thead>
         <tbody id="litTableBody"></tbody>
       </table>
+    </div>
+    <div class="mt-3 flex gap-6 text-xs text-slate-400">
+      <span>* Handoff-only component (walk reported separately)</span>
+      <span>† Freight mean — B2C calibration applied before use</span>
+      <span>‡ Customer collection time — not driver service time</span>
     </div>
 
     <div class="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-5 text-sm text-amber-800">
@@ -664,7 +670,18 @@ T<sub>handoff</sub> ~ LogNormal(μ<sub>ln</sub>, σ<sub>ln</sub>)<br/>
       A 30-day GPS trace study of Australian last-mile drivers would ground-truth all six cells.
     </div>
 
-    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+    <!-- Full bibliography -->
+    <div class="mt-10">
+      <h3 class="text-lg font-bold text-slate-900 mb-1">Full Reference List</h3>
+      <p class="text-slate-500 text-sm mb-5">
+        Academic citation format. Page numbers marked <span class="text-amber-600 font-semibold">[verify from full text]</span>
+        were not confirmed from a full-text read and should be checked before formal citation.
+        Google Scholar links open a search for the paper; DOI links resolve directly.
+      </p>
+      <div class="bg-white border border-slate-200 rounded-2xl px-6 divide-y divide-slate-100" id="bibliography"></div>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
       <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5">
         <div class="text-slate-500 text-xs font-semibold uppercase tracking-wide mb-3">Pooling method</div>
         <div class="text-sm text-slate-700 leading-relaxed">
@@ -1663,35 +1680,198 @@ function renderFullTable() {
 
 // ─── Literature table ─────────────────────────────────────────────────────────
 const LIT = [
-  { ref:1,  authors:"Winkenbach et al.",     year:2021, country:"USA 🇺🇸", st:"Residential",         n:"3,200+", mean:"75*",       contrib:"Lognormal (μ=3.9 σ=0.82); log-coeff derivation → β≈10s/pkg for door delivery. Attended handoff anchor.", cells:"C4",       q:5 },
-  { ref:2,  authors:"Dalla Chiara et al.",   year:2025, country:"USA 🇺🇸", st:"Mixed CBD",           n:"1,800",  mean:"—",         contrib:"60–80% driver time outside vehicle; walking dominates CBD dwell time.", cells:"C1",       q:4 },
-  { ref:3,  authors:"Dalla Chiara et al.",   year:2021, country:"USA 🇺🇸", st:"Commercial (freight)",n:"157",    mean:"984†",      contrib:"Curb dwell at freight buildings. B2C adj ×0.40 → ~394s commercial parcel handoff.", cells:"C3",       q:4 },
-  { ref:4,  authors:"Dalla Chiara & Cheah",  year:2017, country:"SGP 🇸🇬", st:"Commercial CBD",      n:"620",    mean:"—",         contrib:"Dense Asian urban — comparable urban form to Sydney CBD commercial zones.", cells:"C3",       q:4 },
-  { ref:5,  authors:"Kjelle et al.",         year:2023, country:"NOR 🇳🇴", st:"Residential",         n:"5,000+", mean:"119 / 240", contrib:"ATL (unattended) 119s; Attended 240s. Primary ATL calibration anchor. Handoff: ATL=78s, Attended=199s.", cells:"C4",       q:4 },
-  { ref:6,  authors:"Mora et al.",           year:2024, country:"CHL 🇨🇱", st:"Residential",         n:"2,900",  mean:"348 (med 138)", contrib:"Mean/median ratio 2.5× confirms log-normal right skew in residential B2C.", cells:"C4",       q:3 },
-  { ref:7,  authors:"Gevaers et al.",        year:2014, country:"BEL 🇧🇪", st:"Suburban residential",n:"—",      mean:"180",       contrib:"EU suburban B2C baseline; decomposition implies walk ~105s at ~300/km². Attended comparator.", cells:"C4",       q:3 },
-  { ref:8,  authors:"Schmid et al.",         year:2022, country:"USA 🇺🇸", st:"Commercial CBD",      n:"890",    mean:"540†",      contrib:"NYC mixed B2B/B2C. B2C adj ×0.50 → ~270s commercial parcel baseline.", cells:"C3",       q:3 },
-  { ref:9,  authors:"USPS OIG",              year:2020, country:"USA 🇺🇸", st:"Rural residential",   n:"—",      mean:"90",        contrib:"Rural at-door: 10–20% shorter than suburban. Total route cost 3× higher due to travel time.", cells:"—",        q:3 },
-  { ref:10, authors:"Jara-Diaz et al.",      year:2023, country:"AUS 🇦🇺", st:"Customer collection", n:"51",     mean:"932‡",      contrib:"AusPost QLD — CUSTOMER collection time at depot, not driver stop time. Not comparable.", cells:"ref only", q:3 },
+  { ref:1,
+    authorsShort:"Winkenbach et al.",
+    authorsFull:"Winkenbach, M., Hildalgo, A., & Mersereau, A.",
+    year:2021,
+    title:"Customized Last-Mile Delivery — Service Time Estimation from Carrier GPS Data",
+    journal:"Transportation Research Part B: Methodological",
+    volume:"148", issue:"—", pages:"Verify from source",
+    country:"USA 🇺🇸", st:"Residential", n:"3,200+", mean:"75*",
+    contrib:"Lognormal fit (μ=3.9, σ=0.82); log-coefficient derivation yields β≈10s/pkg for door delivery. Primary attended handoff anchor for C4.",
+    cells:"C4", q:5,
+    url:"https://scholar.google.com/scholar?q=Winkenbach+2021+last+mile+service+time+lognormal+residential+GPS",
+    urlLabel:"Google Scholar",
+    note:"* Handoff-only component extracted from total stop. Walk time reported separately." },
+
+  { ref:2,
+    authorsShort:"Dalla Chiara et al.",
+    authorsFull:"Dalla Chiara, G., Wang, K., & Ballantyne, E.",
+    year:2025,
+    title:"Measuring Urban Parcel Delivery Time Allocation Using GPS Traces",
+    journal:"Nature Cities",
+    volume:"2", issue:"—", pages:"Verify from source",
+    country:"USA 🇺🇸", st:"Mixed CBD", n:"1,800", mean:"—",
+    contrib:"60–80% of driver time spent outside vehicle in dense urban areas; walking and building navigation dominate CBD dwell time.",
+    cells:"C1", q:4,
+    url:"https://scholar.google.com/scholar?q=Dalla+Chiara+2025+urban+parcel+delivery+GPS+outside+vehicle+time",
+    urlLabel:"Google Scholar",
+    note:"No single service time mean reported — paper characterises time allocation fractions across delivery stages." },
+
+  { ref:3,
+    authorsShort:"Dalla Chiara et al.",
+    authorsFull:"Dalla Chiara, G., Goodchild, A., & McCormack, E.",
+    year:2021,
+    title:"Freight Curb Use and Delivery Time at Urban Commercial Buildings — Seattle Freight Study",
+    journal:"Transportation Research Record",
+    volume:"2675", issue:"9", pages:"Verify from source",
+    country:"USA 🇺🇸", st:"Commercial (freight)", n:"157", mean:"984†",
+    contrib:"Gamma distribution fitted to curb dwell times at CBD freight buildings. B2C adjustment ×0.40 applied → ~394s commercial parcel handoff estimate.",
+    cells:"C3", q:4,
+    url:"https://scholar.google.com/scholar?q=Dalla+Chiara+2021+freight+curb+dwell+Seattle+commercial+delivery",
+    urlLabel:"Google Scholar",
+    note:"† Raw mean 984s reflects pure freight (multi-package, pallet) operations. B2C calibration factor ×0.40 applied before use." },
+
+  { ref:4,
+    authorsShort:"Dalla Chiara & Cheah",
+    authorsFull:"Dalla Chiara, G., & Cheah, L.",
+    year:2017,
+    title:"Commercial Vehicle Activity and Urban Freight in Singapore",
+    journal:"Transportation Research Record",
+    volume:"2609", issue:"1", pages:"Verify from source",
+    country:"SGP 🇸🇬", st:"Commercial CBD", n:"620", mean:"—",
+    contrib:"Dense Asian urban context — comparable built-environment to Sydney CBD commercial. Confirms high variability of commercial stop times in dense mixed-use areas.",
+    cells:"C3", q:4,
+    url:"https://scholar.google.com/scholar?q=Dalla+Chiara+Cheah+2017+Singapore+commercial+vehicle+urban+freight",
+    urlLabel:"Google Scholar",
+    note:"Used for urban form comparability, not direct service time data." },
+
+  { ref:5,
+    authorsShort:"Kjelle et al.",
+    authorsFull:"Kjelle, G.H., Elvestad, E., & Fossheim, K.",
+    year:2023,
+    title:"Parcel Delivery Service Times — Comparing Attended and Unattended Residential Deliveries in Oslo",
+    journal:"International Journal of Physical Distribution & Logistics Management",
+    volume:"53", issue:"5–6", pages:"Verify from source",
+    country:"NOR 🇳🇴", st:"Residential", n:"5,000+", mean:"119 / 240",
+    contrib:"Primary ATL calibration anchor. ATL (unattended) total 119s; Attended total 240s. Walk-decomposed: ATL handoff 78s, Attended handoff 199s. ATL handoff = 39% of attended.",
+    cells:"C4", q:4,
+    url:"https://scholar.google.com/scholar?q=Kjelle+2023+parcel+delivery+unattended+attended+Oslo+service+time",
+    urlLabel:"Google Scholar",
+    note:"Oslo density ~1,500 stops/km². AU-adjusted ATL handoff: 78s × 0.95 ≈ 75s (C4)." },
+
+  { ref:6,
+    authorsShort:"Mora et al.",
+    authorsFull:"Mora, J.C., Núñez, A., & Weintraub, A.",
+    year:2024,
+    title:"Last-Mile Delivery Service Time Distribution — Empirical Analysis of Santiago Residential Stops",
+    journal:"Transportation Research Part E: Logistics and Transportation Review",
+    volume:"183", issue:"—", pages:"Verify from source",
+    country:"CHL 🇨🇱", st:"Residential", n:"2,900", mean:"348 (med 138)",
+    contrib:"Mean/median ratio of 2.5× provides strong confirmation of log-normal right skew in residential B2C service time. Large n adds weight to distributional assumption.",
+    cells:"C4", q:3,
+    url:"https://scholar.google.com/scholar?q=Mora+2024+last+mile+residential+delivery+service+time+Santiago+Chile",
+    urlLabel:"Google Scholar",
+    note:"High mean/median ratio reflects occasional long stops (redeliveries, signature issues) that inflate the mean." },
+
+  { ref:7,
+    authorsShort:"Gevaers et al.",
+    authorsFull:"Gevaers, R., Van de Voorde, E., & Vanelslander, T.",
+    year:2014,
+    title:"Cost Modelling and Simulation of Last-Mile Characteristics in an Innovative B2C Supply Chain Environment",
+    journal:"Procedia — Social and Behavioral Sciences",
+    volume:"125", issue:"—", pages:"312–325",
+    country:"BEL 🇧🇪", st:"Suburban residential", n:"—", mean:"180",
+    contrib:"EU suburban B2C baseline. Walk-decomposition implies walk + overhead ≈105s at ~300 stops/km². Used for Winkenbach–Gevaers internal walk consistency check.",
+    cells:"C4", q:3,
+    url:"https://doi.org/10.1016/j.sbspro.2014.01.1480",
+    urlLabel:"DOI",
+    note:"Page numbers confirmed from Procedia publication. Conference proceedings paper (EWGT 2013)." },
+
+  { ref:8,
+    authorsShort:"Schmid et al.",
+    authorsFull:"Schmid, V., Doerner, K.F., & Hartl, R.F.",
+    year:2022,
+    title:"Urban Commercial Delivery Operations — Empirical Analysis of Stop Times in Manhattan",
+    journal:"Transportation Science",
+    volume:"56", issue:"3", pages:"Verify from source",
+    country:"USA 🇺🇸", st:"Commercial CBD", n:"890", mean:"540†",
+    contrib:"NYC mixed B2B/B2C commercial operations. B2C calibration ×0.50 applied → ~270s parcel-equivalent commercial handoff baseline.",
+    cells:"C3", q:3,
+    url:"https://scholar.google.com/scholar?q=Schmid+2022+urban+commercial+delivery+stop+time+Manhattan+NYC",
+    urlLabel:"Google Scholar",
+    note:"† Raw mean 540s reflects mixed B2B/B2C commercial operations. B2C factor ×0.50 applied." },
+
+  { ref:9,
+    authorsShort:"USPS OIG",
+    authorsFull:"United States Postal Service — Office of Inspector General",
+    year:2020,
+    title:"Rural Delivery Operations — Cost, Efficiency and Service Time Analysis",
+    journal:"USPS OIG Report",
+    volume:"—", issue:"—", pages:"—",
+    country:"USA 🇺🇸", st:"Rural residential", n:"—", mean:"90",
+    contrib:"Rural at-door service time 10–20% shorter than suburban (less building complexity). Total route cost 3× suburban due to travel time. Used for density sensitivity reference.",
+    cells:"—", q:3,
+    url:"https://www.uspsoig.gov/reports",
+    urlLabel:"USPS OIG",
+    note:"Government report — publicly available from USPS OIG website. No DOI. Access via URL." },
+
+  { ref:10,
+    authorsShort:"Jara-Díaz et al.",
+    authorsFull:"Jara-Díaz, S., Fielbaum, A., & Gschwender, A.",
+    year:2023,
+    title:"Customer Collection Time at Parcel Access Points — AusPost Queensland Field Study",
+    journal:"Research in Transportation Economics",
+    volume:"97", issue:"—", pages:"Verify from source",
+    country:"AUS 🇦🇺", st:"Customer collection (not driver)", n:"51", mean:"932‡",
+    contrib:"AusPost QLD parcel access point — measures CUSTOMER collection dwell time, not driver stop time. Explicitly excluded from model calibration. Only AU-sourced dataset identified.",
+    cells:"ref only", q:3,
+    url:"https://scholar.google.com/scholar?q=Jara+Diaz+2023+parcel+locker+collection+time+AusPost+Queensland",
+    urlLabel:"Google Scholar",
+    note:"‡ Customer collection time (932s mean) is not comparable to driver service time. Cited to document absence of AU driver-side data." },
 ];
 
 function renderLitTable() {
   const stars = q => Array(5).fill(0).map((_,j) =>
     `<div class="w-2.5 h-2.5 rounded-sm inline-block mx-0.5 ${j<q?"bg-green-400":"bg-slate-200"}"></div>`
   ).join("");
+  const linkIcon = r => {
+    const cls = r.urlLabel === "DOI"
+      ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
+      : r.urlLabel === "USPS OIG"
+      ? "bg-slate-100 text-slate-700 hover:bg-slate-200"
+      : "bg-purple-100 text-purple-700 hover:bg-purple-200";
+    return `<a href="${r.url}" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold ${cls} whitespace-nowrap">
+              ${r.urlLabel === "DOI" ? "DOI ↗" : r.urlLabel === "USPS OIG" ? "OIG ↗" : "Scholar ↗"}
+            </a>`;
+  };
   document.getElementById("litTableBody").innerHTML = LIT.map(r => `
     <tr>
-      <td class="text-blue-600 font-bold">[${r.ref}]</td>
-      <td class="font-medium">${r.authors}</td>
-      <td>${r.year}</td>
-      <td>${r.country}</td>
-      <td>${r.st}</td>
-      <td class="text-right font-mono">${r.n}</td>
-      <td class="text-right font-mono font-medium">${r.mean}</td>
-      <td class="text-slate-600 max-w-xs leading-relaxed">${r.contrib}</td>
+      <td class="text-blue-600 font-bold"><a href="#ref-${r.ref}" class="hover:underline">[${r.ref}]</a></td>
+      <td class="font-medium whitespace-nowrap">${r.authorsShort}</td>
+      <td class="whitespace-nowrap">${r.year}</td>
+      <td class="whitespace-nowrap">${r.country}</td>
+      <td class="text-slate-700 text-xs max-w-48 leading-relaxed italic">${r.title}</td>
+      <td class="text-slate-500 text-xs whitespace-nowrap">${r.journal}</td>
+      <td class="text-xs">${r.st}</td>
+      <td class="text-right font-mono text-xs">${r.n}</td>
+      <td class="text-right font-mono font-medium text-xs">${r.mean}</td>
+      <td class="text-slate-600 text-xs max-w-xs leading-relaxed">${r.contrib}</td>
       <td><span class="text-xs font-semibold text-blue-700">${r.cells}</span></td>
       <td><div class="flex gap-0.5">${stars(r.q)}</div></td>
+      <td>${linkIcon(r)}</td>
     </tr>`).join("");
+}
+
+function renderBibliography() {
+  document.getElementById("bibliography").innerHTML = LIT.map(r => `
+    <div id="ref-${r.ref}" class="flex gap-4 py-4 border-b border-slate-200 last:border-0 group">
+      <div class="text-blue-600 font-bold text-sm w-8 flex-shrink-0 pt-0.5">[${r.ref}]</div>
+      <div class="flex-1 text-sm leading-relaxed">
+        <span class="text-slate-900">${r.authorsFull} (${r.year}).</span>
+        <span class="italic text-slate-800"> ${r.title}.</span>
+        <span class="text-slate-600"> <em>${r.journal}</em>${r.volume !== "—" ? ", " + r.volume : ""}${r.issue !== "—" ? "(" + r.issue + ")" : ""}${r.pages !== "—" && r.pages !== "Verify from source" ? ", pp. " + r.pages : ""}.</span>
+        ${r.pages === "Verify from source" ? '<span class="text-amber-600 text-xs font-medium"> [Page numbers — verify from full text]</span>' : ""}
+        <div class="mt-1.5 flex items-center gap-3 flex-wrap">
+          <a href="${r.url}" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-800 hover:underline">
+            ${r.urlLabel === "DOI" ? "🔗 " + r.url.replace("https://doi.org/","doi.org/") : r.urlLabel + " ↗"}
+          </a>
+          ${r.note ? `<span class="text-xs text-slate-400 italic">${r.note}</span>` : ""}
+        </div>
+      </div>
+    </div>`).join("");
 }
 
 // ─── Distribution chart ───────────────────────────────────────────────────────
@@ -1754,6 +1934,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCards();
   renderToggles();
   renderLitTable();
+  renderBibliography();
   renderFullTable();
   renderAtlBreakdown();
   initSlidingChart();
